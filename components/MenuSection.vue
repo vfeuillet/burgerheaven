@@ -2,41 +2,27 @@
 const { add } = useCart()
 const config = useRuntimeConfig()
 
-const query = `
-  query {
-    produits(pagination: { limit: 100 }) {
-      documentId
-      nom
-      description
-      prix
-      prixPromo
-      enPromotion
-      categorie
-      image { url }
-    }
-  }
-`
-
 type Produit = {
-  documentId?: string | null
-  nom?: string | null
+  id?: number
+  documentId?: string
+  nom?: string
   description?: string | null
-  prix?: number | null
+  prix?: number
   prixPromo?: number | null
-  enPromotion?: boolean | null
-  image?: { url?: string | null } | null
-  categorie?: string | null
+  enPromotion?: boolean
+  image?: { url?: string } | null
+  categorie?: string
 }
 
-type GqlResponse = { data?: { produits?: Produit[] | null } | null }
-
-const { data, pending, error, refresh } = await useAsyncData<GqlResponse>(
-  'produits-menu',
-  () => useGql<GqlResponse>(query),
-  { server: true }
+// Utiliser l'API REST au lieu de GraphQL
+const { data, pending, error, refresh } = await useFetch<{ data: Produit[] }>(
+  `${config.public.strapiUrl}/api/produits?populate=*&pagination[limit]=100`,
+  {
+    server: true
+  }
 )
 
-const produits = computed<Produit[]>(() => data.value?.data?.produits ?? [])
+const produits = computed<Produit[]>(() => data.value?.data ?? [])
 
 const categories = computed<string[]>(() => {
   const set = new Set<string>()
@@ -61,7 +47,7 @@ const produitsFiltres = computed<Produit[]>(() => {
 })
 
 function addToCart(p: Produit) {
-  const id = p.documentId ?? ''
+  const id = p.documentId ?? String(p.id ?? '')
   const nom = p.nom ?? ''
   const prix = p.enPromotion && p.prixPromo ? Number(p.prixPromo) : Number(p.prix ?? 0)
   const img: string | null = p?.image?.url ? fullUrl(p.image.url ?? null) : null
@@ -84,18 +70,18 @@ function calculerReduction(prixNormal?: number | null, prixPromo?: number | null
   <section id="menu" style="padding: 3rem 0 5rem 0; background-color: white;">
     <div class="container mx-auto px-4">
       
-    <!-- En-tête de section (SANS badge) -->
-<div class="text-center mb-8">
-  <h2 style="font-size: 3rem; font-weight: bold; color: #1f2937; margin-bottom: 0.75rem;">
-    Notre <span style="color: #fbbf24;">Menu</span>
-  </h2>
-  
-  <p style="font-size: 1.125rem; color: #4b5563; max-width: 48rem; margin: 0 auto;">
-    Découvrez nos spécialités préparées avec des ingrédients frais et de qualité.
-  </p>
-</div>
+      <!-- En-tête de section -->
+      <div class="text-center mb-8">
+        <h2 style="font-size: 3rem; font-weight: bold; color: #1f2937; margin-bottom: 0.75rem;">
+          Notre <span style="color: #fbbf24;">Menu</span>
+        </h2>
+        
+        <p style="font-size: 1.125rem; color: #4b5563; max-width: 48rem; margin: 0 auto;">
+          Découvrez nos spécialités préparées avec des ingrédients frais et de qualité.
+        </p>
+      </div>
 
-      <!-- Filtres catégories (STYLE AMÉLIORÉ) -->
+      <!-- Filtres catégories -->
       <div v-if="categories.length > 0" class="flex justify-center mb-10">
         <div style="display: inline-flex; gap: 0.75rem; background-color: #f3f4f6; padding: 0.5rem; border-radius: 9999px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
           <button
@@ -158,14 +144,14 @@ function calculerReduction(prixNormal?: number | null, prixPromo?: number | null
 
           <!-- Image produit -->
           <div style="height: 192px; overflow: hidden; position: relative; background: linear-gradient(135deg, #fef3c7, #fde68a);">
-           <img
-                :src="fullUrl(item?.image?.url)"
-                :alt="item?.nom ?? 'Produit'"
-                loading="lazy"
-                decoding="async"
-                style="width: 100%; height: 192px; object-fit: cover; transition: transform 0.5s;"
-                class="group-hover:scale-110"
-              />
+            <img
+              :src="fullUrl(item?.image?.url)"
+              :alt="item?.nom ?? 'Produit'"
+              loading="lazy"
+              decoding="async"
+              style="width: 100%; height: 192px; object-fit: cover; transition: transform 0.5s;"
+              class="group-hover:scale-110"
+            />
           </div>
 
           <!-- Contenu -->
