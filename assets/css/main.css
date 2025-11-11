@@ -1,0 +1,223 @@
+/* ============================================
+   ANIMATIONS AU SCROLL
+   ============================================ */
+
+/* Animation fade-in depuis le bas */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Animation fade-in simple */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Classes d'animation */
+.animate-on-scroll {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.fade-in {
+  animation: fadeIn 1s ease-out;
+}
+
+/* Animation avec délai pour effets en cascade */
+.animate-delay-1 { animation-delay: 0.1s; }
+.animate-delay-2 { animation-delay: 0.2s; }
+.animate-delay-3 { animation-delay: 0.3s; }
+.animate-delay-4 { animation-delay: 0.4s; }
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+
+/* ============================================
+   RESPONSIVE MOBILE
+   ============================================ */
+
+/* Tablettes et moins (max 1024px) */
+@media (max-width: 1024px) {
+  /* Réduction des tailles de titres */
+  h1 {
+    font-size: 2.5rem !important;
+  }
+  
+  h2 {
+    font-size: 2rem !important;
+  }
+  
+  /* Hero adaptatif */
+  .hero-title {
+    font-size: 3rem !important;
+  }
+}
+
+/* Mobile (max 768px) */
+@media (max-width: 768px) {
+  /* Titres encore plus petits */
+  h1 {
+    font-size: 2rem !important;
+  }
+  
+  h2 {
+    font-size: 1.75rem !important;
+  }
+  
+  /* Hero mobile */
+  .hero-title {
+    font-size: 2rem !important;
+    line-height: 1.2 !important;
+  }
+  
+  /* Padding réduit pour sections */
+  section {
+    padding: 2rem 0 !important;
+  }
+  
+  /* Grilles 1 colonne sur mobile */
+  .grid-responsive {
+    grid-template-columns: 1fr !important;
+  }
+  
+  /* Navigation mobile */
+  .desktop-nav {
+    display: none !important;
+  }
+  
+  /* Boutons empilés verticalement */
+  .button-group {
+    flex-direction: column !important;
+    gap: 1rem !important;
+  }
+  
+  /* Cards produits full-width sur mobile */
+  article {
+    max-width: 100% !important;
+  }
+}
+
+/* Petits mobiles (max 480px) */
+@media (max-width: 480px) {
+  /* Titres très compacts */
+  .hero-title {
+    font-size: 1.75rem !important;
+  }
+  
+  /* Padding minimal */
+  .container {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+  
+  /* Boutons plus petits */
+  button, .button {
+    font-size: 0.875rem !important;
+    padding: 0.625rem 1.25rem !important;
+  }
+}
+
+
+/* ============================================
+   MENU BURGER MOBILE
+   ============================================ */
+
+/* Bouton burger (à ajouter dans Header.vue) */
+.burger-menu {
+  display: none;
+  flex-direction: column;
+  gap: 0.25rem;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.burger-menu span {
+  width: 1.5rem;
+  height: 2px;
+  background-color: white;
+  transition: all 0.3s;
+}
+
+/* Afficher le burger sur mobile */
+@media (max-width: 768px) {
+  .burger-menu {
+    display: flex !important;
+  }
+  
+  /* Menu mobile overlay */
+  .mobile-menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 80%;
+    max-width: 300px;
+    height: 100vh;
+    background-color: #1f2937;
+    transition: right 0.3s ease-out;
+    z-index: 9998;
+    padding: 2rem;
+    box-shadow: -4px 0 10px rgba(0,0,0,0.3);
+  }
+  
+  .mobile-menu.open {
+    right: 0;
+  }
+  
+  /* Overlay sombre */
+  .mobile-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9997;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  
+  .mobile-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+
+/* ============================================
+   AMÉLIORATIONS GÉNÉRALES
+   ============================================ */
+
+/* Transitions douces sur tous les éléments interactifs */
+button, a, .card {
+  transition: all 0.3s ease;
+}
+
+/* Hover effects améliorés */
+.card:hover {
+  transform: translateY(-5px);
+}
+
+/* Focus visible pour accessibilité */
+button:focus, a:focus {
+  outline: 2px solid #fbbf24;
+  outline-offset: 2px;
+}
+
+/* Suppression du scroll horizontal */
+body {
+  overflow-x: hidden;
+}
