@@ -4,6 +4,17 @@ import { ref, onMounted } from 'vue' // ✅ CRITIQUE : il manquait ça
 const showBanner = ref(false)
 const showPreferences = ref(false)
 
+// 👇 NOUVELLE FONCTION POUR LES DEMOS
+function resetCookies() {
+  localStorage.removeItem('cookie-consent')
+  localStorage.removeItem('cookie-consent-date')
+  showBanner.value = true
+  showPreferences.value = false
+}
+
+// Expose la fonction au parent (pour le footer)
+defineExpose({ resetCookies })
+
 const preferences = ref({
   necessary: true,
   analytics: false,
