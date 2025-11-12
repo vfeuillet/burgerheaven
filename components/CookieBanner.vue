@@ -4,7 +4,7 @@ const showPreferences = ref(false)
 
 // Catégories de cookies
 const preferences = ref({
-  necessary: true, // Toujours true, non modifiable
+  necessary: true,
   analytics: false,
   marketing: false
 })
@@ -14,18 +14,14 @@ onMounted(() => {
   const consentDate = localStorage.getItem('cookie-consent-date')
   
   if (!consent) {
-    // Pas de consentement enregistré
     showBanner.value = true
   } else {
-    // Vérifier que le consentement a moins de 13 mois
     const thirteenMonthsAgo = new Date()
     thirteenMonthsAgo.setMonth(thirteenMonthsAgo.getMonth() - 13)
     
     if (consentDate && new Date(consentDate) < thirteenMonthsAgo) {
-      // Consentement expiré
       showBanner.value = true
     } else {
-      // Charger les préférences sauvegardées
       const saved = JSON.parse(consent)
       preferences.value = { ...preferences.value, ...saved }
       applyPreferences()
@@ -69,15 +65,11 @@ function savePreferences() {
 }
 
 function applyPreferences() {
-  // Ici tu actives/désactives tes scripts selon les préférences
-  
   if (preferences.value.analytics) {
-    // Activer Google Analytics, etc.
     console.log('Analytics activé')
   }
   
   if (preferences.value.marketing) {
-    // Activer Facebook Pixel, etc.
     console.log('Marketing activé')
   }
 }
@@ -85,6 +77,9 @@ function applyPreferences() {
 function openPreferences() {
   showPreferences.value = true
 }
+
+// ✅ LIGNE CRITIQUE - NE PAS SUPPRIMER
+defineExpose({ openPreferences })
 </script>
 
 <template>
