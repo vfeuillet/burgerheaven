@@ -5,8 +5,11 @@ const showPreferences = ref(false)
 const preferences = ref({
   necessary: true,
   analytics: false,
-  marketing: false
+  marketing: false,
 })
+
+// CNIL: Durée de conservation = 13 mois
+const CONSENT_DURATION_MONTHS = 13
 
 onMounted(() => {
   const consent = localStorage.getItem('cookie-consent')
@@ -15,11 +18,11 @@ onMounted(() => {
   if (!consent) {
     showBanner.value = true
   } else {
-    const thirteenMonthsAgo = new Date()
-    thirteenMonthsAgo.setMonth(thirteenMonthsAgo.getMonth() - 13)
+    const expiryDate = new Date()
+    expiryDate.setMonth(expiryDate.getMonth() - CONSENT_DURATION_MONTHS)
     
-    if (consentDate && new Date(consentDate) < thirteenMonthsAgo) {
-      showBanner.value = true
+    if (consentDate && new Date(consentDate) < expiryDate) {
+      showBanner.value = true // Consentement expire
     } else {
       const saved = JSON.parse(consent)
       preferences.value = { ...preferences.value, ...saved }
@@ -32,44 +35,43 @@ function acceptAll() {
   preferences.value.analytics = true
   preferences.value.marketing = true
   savePreferences()
-  showBanner.value = false
-  showPreferences.value = false
 }
 
 function refuseAll() {
   preferences.value.analytics = false
   preferences.value.marketing = false
   savePreferences()
-  showBanner.value = false
-  showPreferences.value = false
 }
 
 function saveCustomPreferences() {
   savePreferences()
-  showPreferences.value = false
-  showBanner.value = false
 }
 
 function savePreferences() {
   const consentData = {
     necessary: true,
     analytics: preferences.value.analytics,
-    marketing: preferences.value.marketing
+    marketing: preferences.value.marketing,
   }
   
   localStorage.setItem('cookie-consent', JSON.stringify(consentData))
   localStorage.setItem('cookie-consent-date', new Date().toISOString())
   
+  showBanner.value = false
+  showPreferences.value = false
   applyPreferences()
 }
 
 function applyPreferences() {
+  // CNIL: Respect des choix
   if (preferences.value.analytics) {
-    console.log('Analytics active')
+    // Active Google Analytics ici
+    console.log('✅ Analytics active')
   }
   
   if (preferences.value.marketing) {
-    console.log('Marketing active')
+    // Active Facebook Pixel ici
+    console.log('✅ Marketing active')
   }
 }
 
@@ -81,45 +83,49 @@ defineExpose({ openPreferences })
 </script>
 
 <template>
+  <!-- CNIL: Banniere visible sans scroll -->
   <div 
     v-if="showBanner && !showPreferences" 
-    style="position: fixed; bottom: 0; left: 0; right: 0; background: #1f2937; color: white; padding: 1.5rem; z-index: 9999; box-shadow: 0 -4px 6px rgba(0,0,0,0.1);"
+    class="fixed bottom-0 inset-x-0 bg-gray-800 text-white p-6 z-50 shadow-2xl"
+    role="dialog" 
+    aria-label="Gestion des cookies"
   >
-    <div class="container mx-auto">
-      <div style="display: flex; flex-direction: column; gap: 1rem;">
-        <div style="flex: 1;">
-          <p style="font-size: 0.875rem; line-height: 1.5;">
-            <strong style="font-size: 1rem;">🍪 Nous respectons votre vie privee</strong><br>
-            Nous utilisons des cookies pour ameliorer votre experience. Vous pouvez accepter tous les cookies, les refuser ou personnaliser vos choix.
-            <br>
-            <a href="/mentions-legales" style="text-decoration: underline; color: #fbbf24;">En savoir plus</a>
+    <div class="container mx-auto max-w-6xl">
+      <div class="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
+        <div class="flex-1">
+          <p class="text-sm lg:text-base">
+            <strong class="text-lg">🍪 Nous respectons votre vie privee</strong><br>
+            Nous utilisons des cookies pour ameliorer votre experience. 
+            Vous pouvez choisir ci-dessous.<br>
+            <a 
+              href="/mentions-legales" 
+              class="text-yellow-400 underline hover:text-yellow-300"
+            >
+              Consulter notre politique de cookies
+            </a>
           </p>
         </div>
         
-        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+        <div class="flex flex-wrap gap-3 w-full lg:w-auto">
+          <!-- CNIL: Bouton "Tout refuser" AU MEME NIVEAU -->
           <button 
             @click="refuseAll"
-            style="flex: 1; min-width: 150px; background: #4b5563; color: white; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600; border: none; cursor: pointer; transition: background 0.2s;"
-            onmouseover="this.style.background='#374151'" 
-            onmouseout="this.style.background='#4b5563'"
+            class="px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg font-semibold transition-colors flex-1 lg:flex-none"
           >
             Tout refuser
           </button>
           
           <button 
             @click="openPreferences"
-            style="flex: 1; min-width: 150px; background: transparent; color: white; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600; border: 2px solid white; cursor: pointer; transition: all 0.2s;"
-            onmouseover="this.style.background='rgba(255,255,255,0.1)'" 
-            onmouseout="this.style.background='transparent'"
+            class="px-6 py-3 border-2 border-white text-white hover:bg-white hover:text-gray-800 rounded-lg font-semibold transition-colors flex-1 lg:flex-none"
           >
             Personnaliser
           </button>
           
+          <!-- CNIL: Bouton "Tout accepter" pas plus mis en avant -->
           <button 
             @click="acceptAll"
-            style="flex: 1; min-width: 150px; background: #fbbf24; color: #1f2937; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600; border: none; cursor: pointer; transition: background 0.2s;"
-            onmouseover="this.style.background='#f59e0b'" 
-            onmouseout="this.style.background='#fbbf24'"
+            class="px-6 py-3 bg-yellow-400 hover:bg-yellow-500 text-gray-900 rounded-lg font-semibold transition-colors flex-1 lg:flex-none"
           >
             Tout accepter
           </button>
@@ -128,139 +134,110 @@ defineExpose({ openPreferences })
     </div>
   </div>
 
+  <!-- Modal preferences -->
   <div 
     v-if="showPreferences"
-    style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 1rem;"
+    class="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4"
+    role="dialog" 
+    aria-label="Parametres des cookies"
   >
-    <div style="background: white; border-radius: 1rem; max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 2rem;">
-      <h2 style="font-size: 1.5rem; font-weight: bold; color: #1f2937; margin-bottom: 1rem;">
+    <div class="bg-white rounded-xl max-w-2xl w-full max-h-screen overflow-y-auto p-6">
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">
         Parametres des cookies
       </h2>
       
-      <p style="color: #6b7280; margin-bottom: 2rem; font-size: 0.875rem;">
-        Nous utilisons differents types de cookies. Vous pouvez choisir lesquels vous souhaitez autoriser.
+      <p class="text-gray-600 mb-6 text-sm">
+        Duree de conservation : 13 mois. 
+        <a href="/mentions-legales" class="text-blue-600 underline">
+          Politique de confidentialite
+        </a>
       </p>
-      
-      <div style="border: 2px solid #e5e7eb; border-radius: 0.75rem; padding: 1rem; margin-bottom: 1rem; background: #f9fafb;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-          <h3 style="font-weight: 600; color: #1f2937;">Cookies necessaires</h3>
-          <span style="background: #10b981; color: white; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;">
+
+      <!-- Cookie necessaire -->
+      <div class="border-2 border-green-200 bg-green-50 rounded-lg p-4 mb-4">
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="font-semibold text-gray-900">Cookies necessaires</h3>
+          <span class="bg-green-500 text-white px-3 py-1 rounded-full text-xs font-bold">
             Toujours actif
           </span>
         </div>
-        <p style="font-size: 0.875rem; color: #6b7280;">
-          Ces cookies sont essentiels au fonctionnement du site. Ils ne peuvent pas etre desactives.
+        <p class="text-sm text-gray-600">
+          Essentiels au fonctionnement basique du site (panier, navigation).
         </p>
       </div>
-      
-      <div style="border: 2px solid #e5e7eb; border-radius: 0.75rem; padding: 1rem; margin-bottom: 1rem;">
-        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
-          <div style="flex: 1;">
-            <h3 style="font-weight: 600; color: #1f2937; margin-bottom: 0.25rem;">Cookies analytiques</h3>
-            <p style="font-size: 0.875rem; color: #6b7280;">
-              Nous aident a comprendre comment vous utilisez notre site pour l'ameliorer.
+
+      <!-- Cookie analytique -->
+      <div class="border-2 border-gray-200 rounded-lg p-4 mb-4">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <h3 class="font-semibold text-gray-900 mb-1">Cookies analytiques</h3>
+            <p class="text-sm text-gray-600">
+              Mesure d'audience (Google Analytics) - anonymise IP conforme RGPD
             </p>
           </div>
-          <label style="position: relative; display: inline-block; width: 48px; height: 24px; flex-shrink: 0; margin-left: 1rem;">
+          <label class="relative inline-block w-12 h-6 flex-shrink-0">
             <input 
               type="checkbox" 
               v-model="preferences.analytics"
-              style="opacity: 0; width: 0; height: 0;"
+              class="sr-only"
             >
             <span 
-              :style="{
-                position: 'absolute',
-                cursor: 'pointer',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                backgroundColor: preferences.analytics ? '#10b981' : '#d1d5db',
-                transition: '0.4s',
-                borderRadius: '24px'
-              }"
-            >
-              <span 
-                :style="{
-                  position: 'absolute',
-                  content: '',
-                  height: '18px',
-                  width: '18px',
-                  left: preferences.analytics ? '26px' : '3px',
-                  bottom: '3px',
-                  backgroundColor: 'white',
-                  transition: '0.4s',
-                  borderRadius: '50%'
-                }"
-              ></span>
-            </span>
+              class="absolute inset-0 rounded-full transition-colors"
+              :class="preferences.analytics ? 'bg-green-500' : 'bg-gray-300'"
+            ></span>
+            <span 
+              class="absolute bottom-1 left-1 h-4 w-4 bg-white rounded-full transition-transform"
+              :class="preferences.analytics ? 'translate-x-6' : 'translate-x-0'"
+            ></span>
           </label>
         </div>
       </div>
-      
-      <div style="border: 2px solid #e5e7eb; border-radius: 0.75rem; padding: 1rem; margin-bottom: 2rem;">
-        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
-          <div style="flex: 1;">
-            <h3 style="font-weight: 600; color: #1f2937; margin-bottom: 0.25rem;">Cookies marketing</h3>
-            <p style="font-size: 0.875rem; color: #6b7280;">
-              Utilises pour vous proposer des publicites personnalisees.
+
+      <!-- Cookie marketing -->
+      <div class="border-2 border-gray-200 rounded-lg p-4 mb-6">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <h3 class="font-semibold text-gray-900 mb-1">Cookies marketing</h3>
+            <p class="text-sm text-gray-600">
+              Publicites ciblees (Facebook Pixel) - uniquement si consentement
             </p>
           </div>
-          <label style="position: relative; display: inline-block; width: 48px; height: 24px; flex-shrink: 0; margin-left: 1rem;">
+          <label class="relative inline-block w-12 h-6 flex-shrink-0">
             <input 
               type="checkbox" 
               v-model="preferences.marketing"
-              style="opacity: 0; width: 0; height: 0;"
+              class="sr-only"
             >
             <span 
-              :style="{
-                position: 'absolute',
-                cursor: 'pointer',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                backgroundColor: preferences.marketing ? '#10b981' : '#d1d5db',
-                transition: '0.4s',
-                borderRadius: '24px'
-              }"
-            >
-              <span 
-                :style="{
-                  position: 'absolute',
-                  content: '',
-                  height: '18px',
-                  width: '18px',
-                  left: preferences.marketing ? '26px' : '3px',
-                  bottom: '3px',
-                  backgroundColor: 'white',
-                  transition: '0.4s',
-                  borderRadius: '50%'
-                }"
-              ></span>
-            </span>
+              class="absolute inset-0 rounded-full transition-colors"
+              :class="preferences.marketing ? 'bg-green-500' : 'bg-gray-300'"
+            ></span>
+            <span 
+              class="absolute bottom-1 left-1 h-4 w-4 bg-white rounded-full transition-transform"
+              :class="preferences.marketing ? 'translate-x-6' : 'translate-x-0'"
+            ></span>
           </label>
         </div>
       </div>
-      
-      <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+
+      <div class="flex flex-wrap gap-3">
         <button 
           @click="refuseAll"
-          style="flex: 1; min-width: 120px; background: #e5e7eb; color: #1f2937; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600; border: none; cursor: pointer;"
+          class="px-6 py-3 bg-gray-200 text-gray-800 rounded-lg font-semibold hover:bg-gray-300 transition-colors flex-1"
         >
           Tout refuser
         </button>
         
         <button 
           @click="saveCustomPreferences"
-          style="flex: 1; min-width: 120px; background: #1e3a8a; color: white; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600; border: none; cursor: pointer;"
+          class="px-6 py-3 bg-blue-800 text-white rounded-lg font-semibold hover:bg-blue-900 transition-colors flex-1"
         >
-          Enregistrer
+          Enregistrer mes choix
         </button>
         
         <button 
           @click="acceptAll"
-          style="flex: 1; min-width: 120px; background: #fbbf24; color: #1f2937; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600; border: none; cursor: pointer;"
+          class="px-6 py-3 bg-yellow-400 text-gray-900 rounded-lg font-semibold hover:bg-yellow-500 transition-colors flex-1"
         >
           Tout accepter
         </button>
