@@ -146,7 +146,7 @@ const isCartOpen = ref(false)
           </div>
           <p class="text-gray-400 mb-4 text-lg">© 2025 BurgerHeaven - Tous droits réservés</p>
           <p class="text-gray-500 flex items-center justify-center gap-2">
-            <span>Fait avec</span>
+            <span>Fait avec amour </span>
             <svg class="w-5 h-5 text-red-500 animate-pulse" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
             </svg>

@@ -106,9 +106,11 @@ function calculerReduction(prixNormal?: number | null, prixPromo?: number | null
           <div style="height: 192px; overflow: hidden; position: relative; background: linear-gradient(135deg, #fef3c7, #fde68a);">
             <img
               :src="fullUrl(item?.image?.url)"
-              :alt="item?.nom ?? 'Produit'"
+              :alt="`${item?.nom ?? 'Produit en promotion'} - Économisez ${calculerReduction(item.prix, item.prixPromo)}%`"
               loading="lazy"
               decoding="async"
+              width="400"
+              height="192"
               style="width: 100%; height: 192px; object-fit: cover; transition: transform 0.5s;"
               class="group-hover:scale-110"
             />

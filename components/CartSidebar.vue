@@ -71,22 +71,21 @@ async function processCashPayment() {
         }
       `,
       variables: {
-  data: {
-    nom_client: form.value.nom_client,
-    email_client: form.value.email_client,
-    total: total.value,
-    statut: 'en_attente',
-    creneau_retrait: selectedCreneau.value,
-    mode_paiement: 'sur_place'  // ✅ AJOUTÉ
-  }
-}
+        data: {
+          nom_client: form.value.nom_client,
+          email_client: form.value.email_client,
+          total: total.value,
+          statut: 'en_attente',
+          creneau_retrait: selectedCreneau.value,
+          mode_paiement: 'sur_place'
+        }
+      }
     })
   })
 
   const commande = commandeResponse.data.createCommande
   console.log('✅ Commande créée:', commande)
 
-  // Créer les lignes de commande et collecter leurs IDs
   const ligneIds: string[] = []
   
   for (const item of cart.value) {
@@ -119,7 +118,6 @@ async function processCashPayment() {
     console.log('✅ Ligne créée:', ligneId)
   }
 
-  // Mettre à jour la commande avec les lignes (relation bidirectionnelle)
   console.log('🔗 Liaison des lignes à la commande...')
   await $fetch<any>(config.public.strapiUrl + '/graphql', {
     method: 'POST',
@@ -175,23 +173,22 @@ async function processStripePayment() {
           }
         }
       `,
-     variables: {
-  data: {
-    nom_client: form.value.nom_client,
-    email_client: form.value.email_client,
-    total: total.value,
-    statut: 'en_attente',
-    creneau_retrait: selectedCreneau.value,
-    mode_paiement: 'en_ligne'  // ✅ AJOUTÉ
-  }
-}
+      variables: {
+        data: {
+          nom_client: form.value.nom_client,
+          email_client: form.value.email_client,
+          total: total.value,
+          statut: 'en_attente',
+          creneau_retrait: selectedCreneau.value,
+          mode_paiement: 'en_ligne'
+        }
+      }
     })
   })
 
   const commande = commandeResponse.data.createCommande
   console.log('✅ Commande créée:', commande)
 
-  // Créer les lignes de commande et collecter leurs IDs
   const ligneIds: string[] = []
   
   for (const item of cart.value) {
@@ -224,7 +221,6 @@ async function processStripePayment() {
     console.log('✅ Ligne créée:', ligneId)
   }
 
-  // Mettre à jour la commande avec les lignes (relation bidirectionnelle)
   console.log('🔗 Liaison des lignes à la commande...')
   await $fetch<any>(config.public.strapiUrl + '/graphql', {
     method: 'POST',
@@ -320,7 +316,10 @@ function handleMouseOut(e: Event) {
         <div v-for="item in cart" :key="item.id" style="display: flex; gap: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem;">
           <img 
             :src="item.image || 'https://placehold.co/80x80/FFD700/000000?text=Burger'" 
-            :alt="item.nom"
+            :alt="`${item.nom} - Produit dans le panier`"
+            loading="lazy"
+            width="80"
+            height="80"
             style="width: 5rem; height: 5rem; object-fit: cover; border-radius: 0.5rem;"
           />
           <div style="flex: 1;">

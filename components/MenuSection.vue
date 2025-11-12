@@ -144,14 +144,16 @@ function calculerReduction(prixNormal?: number | null, prixPromo?: number | null
 
           <!-- Image produit -->
           <div style="height: 192px; overflow: hidden; position: relative; background: linear-gradient(135deg, #fef3c7, #fde68a);">
-            <img
-              :src="fullUrl(item?.image?.url)"
-              :alt="item?.nom ?? 'Produit'"
-              loading="lazy"
-              decoding="async"
-              style="width: 100%; height: 192px; object-fit: cover; transition: transform 0.5s;"
-              class="group-hover:scale-110"
-            />
+         <img
+            :src="fullUrl(item?.image?.url)"
+            :alt="`${item?.nom ?? 'Produit'} - ${item?.description || 'Burger artisanal BurgerHeaven'}`"
+            loading="lazy"
+            decoding="async"
+            width="400"
+            height="192"
+            style="width: 100%; height: 192px; object-fit: cover; transition: transform 0.5s;"
+            class="group-hover:scale-110"
+          />
           </div>
 
           <!-- Contenu -->

@@ -21,3 +21,9 @@ html, body {
   padding: 0;
 }
 </style>
+<template>
+  <div>
+    <NuxtPage />
+    <CookieBanner />
+  </div>
+</template>
