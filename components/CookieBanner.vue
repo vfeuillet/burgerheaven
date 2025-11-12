@@ -74,22 +74,17 @@ function applyPreferences() {
   if (preferences.value.analytics) {
     // Activer Google Analytics, etc.
     console.log('Analytics activé')
-    // loadGoogleAnalytics()
   }
   
   if (preferences.value.marketing) {
     // Activer Facebook Pixel, etc.
     console.log('Marketing activé')
-    // loadFacebookPixel()
   }
 }
 
 function openPreferences() {
   showPreferences.value = true
 }
-
-// Exposer pour accès depuis le footer
-defineExpose({ openPreferences })
 </script>
 
 <template>
@@ -104,19 +99,20 @@ defineExpose({ openPreferences })
         <div style="flex: 1;">
           <p style="font-size: 0.875rem; line-height: 1.5;">
             <strong style="font-size: 1rem;">🍪 Nous respectons votre vie privée</strong><br>
-            Nous utilisons des cookies pour améliorer votre expérience, analyser notre trafic et vous proposer des contenus personnalisés. 
-            Vous pouvez accepter tous les cookies, les refuser ou personnaliser vos choix.
+            Nous utilisons des cookies pour améliorer votre expérience. Vous pouvez accepter tous les cookies, les refuser ou personnaliser vos choix.
             <br>
-            <a href="/mentions-legales" style="text-decoration: underline; color: #fbbf24;">En savoir plus sur notre politique de cookies</a>
+            <a href="/mentions-legales" style="text-decoration: underline; color: #fbbf24;">En savoir plus</a>
           </p>
         </div>
         
         <!-- Boutons -->
         <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
-          <!-- Tout refuser - MÊME IMPORTANCE que accepter -->
+          <!-- Tout refuser -->
           <button 
             @click="refuseAll"
             style="flex: 1; min-width: 150px; background: #4b5563; color: white; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600; border: none; cursor: pointer; transition: background 0.2s;"
+            onmouseover="this.style.background='#374151'" 
+            onmouseout="this.style.background='#4b5563'"
           >
             Tout refuser
           </button>
@@ -125,6 +121,8 @@ defineExpose({ openPreferences })
           <button 
             @click="openPreferences"
             style="flex: 1; min-width: 150px; background: transparent; color: white; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600; border: 2px solid white; cursor: pointer; transition: all 0.2s;"
+            onmouseover="this.style.background='rgba(255,255,255,0.1)'" 
+            onmouseout="this.style.background='transparent'"
           >
             Personnaliser
           </button>
@@ -133,6 +131,8 @@ defineExpose({ openPreferences })
           <button 
             @click="acceptAll"
             style="flex: 1; min-width: 150px; background: #fbbf24; color: #1f2937; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600; border: none; cursor: pointer; transition: background 0.2s;"
+            onmouseover="this.style.background='#f59e0b'" 
+            onmouseout="this.style.background='#fbbf24'"
           >
             Tout accepter
           </button>
@@ -174,7 +174,7 @@ defineExpose({ openPreferences })
           <div style="flex: 1;">
             <h3 style="font-weight: 600; color: #1f2937; margin-bottom: 0.25rem;">Cookies analytiques</h3>
             <p style="font-size: 0.875rem; color: #6b7280;">
-              Nous aident à comprendre comment vous utilisez notre site pour l'améliorer (Google Analytics).
+              Nous aident à comprendre comment vous utilisez notre site pour l'améliorer.
             </p>
           </div>
           <label style="position: relative; display: inline-block; width: 48px; height: 24px; flex-shrink: 0; margin-left: 1rem;">
@@ -220,7 +220,7 @@ defineExpose({ openPreferences })
           <div style="flex: 1;">
             <h3 style="font-weight: 600; color: #1f2937; margin-bottom: 0.25rem;">Cookies marketing</h3>
             <p style="font-size: 0.875rem; color: #6b7280;">
-              Utilisés pour vous proposer des publicités personnalisées (Facebook Pixel, Google Ads).
+              Utilisés pour vous proposer des publicités personnalisées.
             </p>
           </div>
           <label style="position: relative; display: inline-block; width: 48px; height: 24px; flex-shrink: 0; margin-left: 1rem;">
@@ -273,7 +273,7 @@ defineExpose({ openPreferences })
           @click="saveCustomPreferences"
           style="flex: 1; min-width: 120px; background: #1e3a8a; color: white; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600; border: none; cursor: pointer;"
         >
-          Enregistrer mes choix
+          Enregistrer
         </button>
         
         <button 
