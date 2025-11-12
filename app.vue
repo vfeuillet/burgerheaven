@@ -1,5 +1,8 @@
 <template>
-  <NuxtPage />
+  <div>
+    <NuxtPage />
+    <CookieBanner />
+  </div>
 </template>
 
 <style>
@@ -21,9 +24,3 @@ html, body {
   padding: 0;
 }
 </style>
-<template>
-  <div>
-    <NuxtPage />
-    <CookieBanner />
-  </div>
-</template>
