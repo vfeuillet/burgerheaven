@@ -1,90 +1,56 @@
 <template>
-  <div class="container mx-auto px-4 py-16">
-    <h1 style="font-size: 2.5rem; font-weight: bold; margin-bottom: 2rem;">Mentions Légales</h1>
+  <div class="container mx-auto px-4 py-8 max-w-4xl">
+    <h1 class="text-3xl font-bold mb-8">Mentions legales</h1>
     
-    <section style="margin-bottom: 2rem;">
-      <h2 style="font-size: 1.5rem; font-weight: bold; margin-bottom: 1rem;">Éditeur du site</h2>
-      <p>
-        <strong>BurgerHeaven</strong><br>
-        SARL au capital de 10 000€<br>
-        SIRET : 123 456 789 00012<br>
-        123 Avenue des Champs-Élysées, 75008 Paris<br>
-        Téléphone : 01 23 45 67 89<br>
-        Email : contact@burgerheaven.fr
+    <section class="mb-8">
+      <h2 class="text-2xl font-bold mb-4">Politique de cookies</h2>
+      <p class="mb-4">
+        Un cookie est un petit fichier texte depose sur votre terminal (ordinateur, tablette, smartphone) lors de la visite d'un site internet. 
+        Il contient plusieurs donnees : le nom du serveur qui l'a depose, un identifiant sous forme de numero unique, 
+        et eventuellement une date d'expiration.
       </p>
     </section>
-    
-    <section style="margin-bottom: 2rem;">
-      <h2 style="font-size: 1.5rem; font-weight: bold; margin-bottom: 1rem;">Hébergement</h2>
-      <p>
-        Ce site est hébergé par :<br>
-        <strong>Vercel Inc.</strong><br>
-        340 S Lemon Ave #4133, Walnut, CA 91789, USA
+
+    <section class="mb-8">
+      <h3 class="text-xl font-semibold mb-2">Qu'est-ce qu'un cookie ?</h3>
+      <p class="mb-4">
+        Les cookies permettent de stocker des informations sur la visite d'un site et de fournir des fonctionnalites 
+        personnalisees. Ils ne sont pas utilises pour executer des programmes ou faire des analyses sur votre appareil.
       </p>
     </section>
-    
-    <section>
-      <h2 style="font-size: 1.5rem; font-weight: bold; margin-bottom: 1rem;">Données personnelles</h2>
-      <p>
-        Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression de vos données personnelles. 
-        Pour exercer ce droit, contactez-nous à : contact@burgerheaven.fr
+
+    <section class="mb-8">
+      <h3 class="text-xl font-semibold mb-2">Quels cookies utilisons-nous ?</h3>
+      <p class="mb-2">
+        <strong>Cookies necessaires :</strong> Essentiels au fonctionnement du panier et de la navigation.
+      </p>
+      <p class="mb-2">
+        <strong>Cookies analytiques :</strong> Mesure d'audience anonymisee (Google Analytics).
+      </p>
+      <p class="mb-2">
+        <strong>Cookies marketing :</strong> Publicites ciblees (Facebook Pixel) - uniquement avec votre accord.
+      </p>
+    </section>
+
+    <section class="mb-8">
+      <h3 class="text-xl font-semibold mb-2">Duree de conservation</h3>
+      <p class="mb-4">
+        Votre consentement est conserve pendant une duree de <strong>13 mois</strong> maximum, conformement aux recommandations de la CNIL.
+      </p>
+    </section>
+
+    <section class="mb-8">
+      <h3 class="text-xl font-semibold mb-2">Vos droits</h3>
+      <p class="mb-4">
+        Vous pouvez a tout moment retirer votre consentement ou modifier vos preferences via le lien en bas de page. 
+        Pour toute question, contactez-nous a l'adresse visible dans la section Contact.
       </p>
     </section>
   </div>
 </template>
-    <section style="margin-bottom: 2rem;">
-  <h2 style="font-size: 1.5rem; font-weight: bold; margin-bottom: 1rem;">Politique de cookies</h2>
-  
-  <h3 style="font-weight: 600; margin-top: 1rem; margin-bottom: 0.5rem;">Qu'est-ce qu'un cookie ?</h3>
-  <p style="margin-bottom: 1rem;">
-    Un cookie est un petit fichier texte déposé sur votre ordinateur lors de la visite d'un site web. 
-    Il permet de mémoriser des informations sur votre visite.
-  </p>
-  
-  <h3 style="font-weight: 600; margin-top: 1rem; margin-bottom: 0.5rem;">Cookies utilisés sur ce site</h3>
-  
-  <h4 style="font-weight: 600; margin-top: 0.75rem;">1. Cookies nécessaires (exemptés de consentement)</h4>
-  <ul style="list-style: disc; margin-left: 2rem; margin-bottom: 1rem;">
-    <li><strong>cookie-consent</strong> : Mémorise vos choix de cookies (durée : 13 mois)</li>
-    <li><strong>panier</strong> : Mémorise le contenu de votre panier (durée : session)</li>
-  </ul>
-  
-  <h4 style="font-weight: 600; margin-top: 0.75rem;">2. Cookies analytiques (soumis à consentement)</h4>
-  <ul style="list-style: disc; margin-left: 2rem; margin-bottom: 1rem;">
-    <li><strong>Google Analytics</strong> : Analyse de l'audience (durée : 13 mois)</li>
-    <li>Finalité : Comprendre comment vous utilisez notre site pour l'améliorer</li>
-  </ul>
-  
-  <h4 style="font-weight: 600; margin-top: 0.75rem;">3. Cookies marketing (soumis à consentement)</h4>
-  <ul style="list-style: disc; margin-left: 2rem; margin-bottom: 1rem;">
-    <li><strong>Facebook Pixel</strong> : Publicités ciblées (durée : 13 mois)</li>
-    <li>Finalité : Vous proposer des publicités pertinentes</li>
-  </ul>
-  
-  <h3 style="font-weight: 600; margin-top: 1rem; margin-bottom: 0.5rem;">Vos droits</h3>
-  <p style="margin-bottom: 1rem;">
-    Vous pouvez à tout moment modifier vos préférences en cliquant sur "Gérer les cookies" en bas de page.
-    Vous pouvez également supprimer les cookies via les paramètres de votre navigateur.
-  </p>
-  
-  <h3 style="font-weight: 600; margin-top: 1rem; margin-bottom: 0.5rem;">Durée de conservation du consentement</h3>
-  <p>
-    Votre consentement est conservé pendant 13 mois. Au-delà, nous vous redemanderons votre accord.
-  </p>
-</section>
-```
 
----
+<script setup lang="ts">
+// Fichier minimaliste - pas de logique necessaire
+</script>
 
-## ✅ **CHECKLIST CONFORMITÉ CNIL**
-```
-✅ Consentement préalable (avant dépôt cookies)
-✅ Bouton "Tout refuser" aussi visible que "Tout accepter"
-✅ Choix granulaire (nécessaires / analytics / marketing)
-✅ Durée 13 mois maximum
-✅ Possibilité de revenir sur son choix (lien footer)
-✅ Information claire sur les finalités
-✅ Pas de cookie wall (accès au site sans consentement)
-✅ Cookies nécessaires exemptés
-✅ Politique de cookies détaillée
-✅ Mention dans mentions légales
+<!-- PAS DE BALISE <style> - Tailwind gere tout -->
