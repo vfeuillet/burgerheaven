@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import CartSidebar from '~/components/CartSidebar.vue'
+import { ref } from 'vue'
 
 const isCartOpen = ref(false)
 
-// Fonction pour rouvrir le banner de cookies
+// 👇 FONCTION CRITIQUE : Réinitialise les cookies depuis le footer
 function manageCookies() {
+  // Supprime le consentement
   localStorage.removeItem('cookie-consent')
   localStorage.removeItem('cookie-consent-date')
+  
+  // Force le rechargement pour que CookieBanner se réaffiche
   window.location.reload()
 }
 </script>
@@ -25,7 +29,6 @@ function manageCookies() {
     <!-- Menu Section -->
     <MenuSection />
 
-  
     <!-- Section "Nous trouver" + Avis combinés -->
     <section id="trouver" style="padding: 3rem 0 5rem 0; background-color: #f9fafb;">
       <div class="container mx-auto px-4">
@@ -49,7 +52,7 @@ function manageCookies() {
             <!-- Carte Google Maps -->
             <div style="background-color: white; border-radius: 1.5rem; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.1); height: 400px;">
               <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.9916256937586!2d2.292292615674!3d48.858370079287!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e2964e34e2d%3A0x8ddca9ee380ef7e0!2sTour%20Eiffel!5e0!3m2!1sfr!2sfr!4v1234567890"
+                src="https://www.google.com/maps/embed?pb= !1m18!1m12!1m3!1d2624.9916256937586!2d2.292292615674!3d48.858370079287!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e2964e34e2d%3A0x8ddca9ee380ef7e0!2sTour%20Eiffel!5e0!3m2!1sfr!2sfr!4v1234567890"
                 width="100%" 
                 height="100%" 
                 style="border:0;" 
@@ -145,21 +148,26 @@ function manageCookies() {
       </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="bg-gradient-to-br from-gray-900 to-gray-800 text-white py-16">
+    <!-- ✅ FOOTER CORRIGÉ - SANS BUG FLEX -->
+    <footer class="bg-gradient-to-br from-gray-900 to-gray-800 text-white py-16 mt-16">
       <div class="max-w-7xl mx-auto px-6">
         <div class="text-center">
+          <!-- Logo -->
           <div class="flex items-center justify-center gap-3 mb-6">
             <span class="text-5xl">🍔</span>
             <span class="text-3xl font-bold">BurgerHeaven</span>
           </div>
-          <p class="text-gray-400 mb-4 text-lg">© 2025 BurgerHeaven - Tous droits réservés</p>
-          <p class="text-gray-500 flex items-center justify-center gap-2 mb-4">
-            <span>Fait avec amour </span>
-            <svg class="w-5 h-5 text-red-500 animate-pulse" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
-            </svg>
-            <span> et des ingrédients frais</span>
+          
+          <!-- Copyright -->
+          <p class="text-gray-400 mb-4 text-lg">
+            © 2025 BurgerHeaven - Tous droits réservés
+          </p>
+          
+          <!-- ✅ TEXTE CORRIGÉ - Pas de flex = pas de bug -->
+          <p class="text-gray-500 mb-6 text-base" style="display: block !important;">
+            Fait avec 
+            <span class="text-red-500 mx-1 inline-block">❤️</span>
+            amour et des ingrédients frais
           </p>
           
           <!-- Liens légaux -->
@@ -171,9 +179,10 @@ function manageCookies() {
               Mentions légales
             </NuxtLink>
             <span>•</span>
+            <!-- ✅ BOUTON QUI FONCTIONNE -->
             <button 
               @click="manageCookies"
-              class="hover:text-yellow-400 transition-colors cursor-pointer"
+              class="hover:text-yellow-400 transition-colors cursor-pointer underline"
               style="background: none; border: none; color: inherit; font-size: inherit; padding: 0;"
             >
               Gérer les cookies
@@ -187,3 +196,23 @@ function manageCookies() {
     <CartSidebar v-model="isCartOpen" />
   </div>
 </template>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+#__nuxt {
+  margin: 0;
+  padding: 0;
+}
+</style>
