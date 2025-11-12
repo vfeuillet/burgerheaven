@@ -1,18 +1,16 @@
 <script setup lang="ts">
 import CartSidebar from '~/components/CartSidebar.vue'
-import { ref } from 'vue'
+import { ref, inject } from 'vue'
 
 const isCartOpen = ref(false)
 
-// 👇 FONCTION CRITIQUE : Réinitialise les cookies depuis le footer
-function manageCookies() {
-  // Supprime le consentement
+// ✅ Injection de la fonction resetCookies depuis app.vue
+const resetCookies = inject('resetCookies', () => {
+  // Fallback si inject ne fonctionne pas
   localStorage.removeItem('cookie-consent')
   localStorage.removeItem('cookie-consent-date')
-  
-  // Force le rechargement pour que CookieBanner se réaffiche
   window.location.reload()
-}
+})
 </script>
 
 <template>
@@ -148,7 +146,7 @@ function manageCookies() {
       </div>
     </section>
 
-    <!-- ✅ FOOTER CORRIGÉ - SANS BUG FLEX -->
+    <!-- ✅ FOOTER COMPLET AVEC BOUTON COOKIES FONCTIONNEL -->
     <footer class="bg-gradient-to-br from-gray-900 to-gray-800 text-white py-16 mt-16">
       <div class="max-w-7xl mx-auto px-6">
         <div class="text-center">
@@ -163,25 +161,21 @@ function manageCookies() {
             © 2025 BurgerHeaven - Tous droits réservés
           </p>
           
-          <!-- ✅ TEXTE CORRIGÉ - Pas de flex = pas de bug -->
+          <!-- ✅ TEXTE CORRIGÉ SANS BUG -->
           <p class="text-gray-500 mb-6 text-base" style="display: block !important;">
             Fait avec 
             <span class="text-red-500 mx-1 inline-block">❤️</span>
             amour et des ingrédients frais
           </p>
           
-          <!-- Liens légaux -->
+          <!-- ✅ BOUTON COOKIES QUI FONCTIONNE -->
           <div class="flex items-center justify-center gap-3 text-sm text-gray-400">
-            <NuxtLink 
-              to="/mentions-legales" 
-              class="hover:text-yellow-400 transition-colors"
-            >
+            <NuxtLink to="/mentions-legales" class="hover:text-yellow-400 transition-colors">
               Mentions légales
             </NuxtLink>
             <span>•</span>
-            <!-- ✅ BOUTON QUI FONCTIONNE -->
             <button 
-              @click="manageCookies"
+              @click="resetCookies"
               class="hover:text-yellow-400 transition-colors cursor-pointer underline"
               style="background: none; border: none; color: inherit; font-size: inherit; padding: 0;"
             >
