@@ -2,7 +2,6 @@
 const showBanner = ref(false)
 const showPreferences = ref(false)
 
-// Catégories de cookies
 const preferences = ref({
   necessary: true,
   analytics: false,
@@ -66,11 +65,11 @@ function savePreferences() {
 
 function applyPreferences() {
   if (preferences.value.analytics) {
-    console.log('Analytics activé')
+    console.log('Analytics active')
   }
   
   if (preferences.value.marketing) {
-    console.log('Marketing activé')
+    console.log('Marketing active')
   }
 }
 
@@ -78,31 +77,26 @@ function openPreferences() {
   showPreferences.value = true
 }
 
-// ✅ LIGNE CRITIQUE - NE PAS SUPPRIMER
 defineExpose({ openPreferences })
 </script>
 
 <template>
-  <!-- Bannière principale -->
   <div 
     v-if="showBanner && !showPreferences" 
     style="position: fixed; bottom: 0; left: 0; right: 0; background: #1f2937; color: white; padding: 1.5rem; z-index: 9999; box-shadow: 0 -4px 6px rgba(0,0,0,0.1);"
   >
     <div class="container mx-auto">
       <div style="display: flex; flex-direction: column; gap: 1rem;">
-        <!-- Texte -->
         <div style="flex: 1;">
           <p style="font-size: 0.875rem; line-height: 1.5;">
-            <strong style="font-size: 1rem;">🍪 Nous respectons votre vie privée</strong><br>
-            Nous utilisons des cookies pour améliorer votre expérience. Vous pouvez accepter tous les cookies, les refuser ou personnaliser vos choix.
+            <strong style="font-size: 1rem;">🍪 Nous respectons votre vie privee</strong><br>
+            Nous utilisons des cookies pour ameliorer votre experience. Vous pouvez accepter tous les cookies, les refuser ou personnaliser vos choix.
             <br>
             <a href="/mentions-legales" style="text-decoration: underline; color: #fbbf24;">En savoir plus</a>
           </p>
         </div>
         
-        <!-- Boutons -->
         <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
-          <!-- Tout refuser -->
           <button 
             @click="refuseAll"
             style="flex: 1; min-width: 150px; background: #4b5563; color: white; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600; border: none; cursor: pointer; transition: background 0.2s;"
@@ -112,7 +106,6 @@ defineExpose({ openPreferences })
             Tout refuser
           </button>
           
-          <!-- Personnaliser -->
           <button 
             @click="openPreferences"
             style="flex: 1; min-width: 150px; background: transparent; color: white; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600; border: 2px solid white; cursor: pointer; transition: all 0.2s;"
@@ -122,7 +115,6 @@ defineExpose({ openPreferences })
             Personnaliser
           </button>
           
-          <!-- Tout accepter -->
           <button 
             @click="acceptAll"
             style="flex: 1; min-width: 150px; background: #fbbf24; color: #1f2937; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600; border: none; cursor: pointer; transition: background 0.2s;"
@@ -136,40 +128,37 @@ defineExpose({ openPreferences })
     </div>
   </div>
 
-  <!-- Modal de préférences détaillées -->
   <div 
     v-if="showPreferences"
     style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 1rem;"
   >
     <div style="background: white; border-radius: 1rem; max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 2rem;">
       <h2 style="font-size: 1.5rem; font-weight: bold; color: #1f2937; margin-bottom: 1rem;">
-        Paramètres des cookies
+        Parametres des cookies
       </h2>
       
       <p style="color: #6b7280; margin-bottom: 2rem; font-size: 0.875rem;">
-        Nous utilisons différents types de cookies. Vous pouvez choisir lesquels vous souhaitez autoriser.
+        Nous utilisons differents types de cookies. Vous pouvez choisir lesquels vous souhaitez autoriser.
       </p>
       
-      <!-- Cookie nécessaires (non modifiables) -->
       <div style="border: 2px solid #e5e7eb; border-radius: 0.75rem; padding: 1rem; margin-bottom: 1rem; background: #f9fafb;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-          <h3 style="font-weight: 600; color: #1f2937;">Cookies nécessaires</h3>
+          <h3 style="font-weight: 600; color: #1f2937;">Cookies necessaires</h3>
           <span style="background: #10b981; color: white; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;">
             Toujours actif
           </span>
         </div>
         <p style="font-size: 0.875rem; color: #6b7280;">
-          Ces cookies sont essentiels au fonctionnement du site (panier, connexion). Ils ne peuvent pas être désactivés.
+          Ces cookies sont essentiels au fonctionnement du site. Ils ne peuvent pas etre desactives.
         </p>
       </div>
       
-      <!-- Cookies analytics (optionnels) -->
       <div style="border: 2px solid #e5e7eb; border-radius: 0.75rem; padding: 1rem; margin-bottom: 1rem;">
         <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
           <div style="flex: 1;">
             <h3 style="font-weight: 600; color: #1f2937; margin-bottom: 0.25rem;">Cookies analytiques</h3>
             <p style="font-size: 0.875rem; color: #6b7280;">
-              Nous aident à comprendre comment vous utilisez notre site pour l'améliorer.
+              Nous aident a comprendre comment vous utilisez notre site pour l'ameliorer.
             </p>
           </div>
           <label style="position: relative; display: inline-block; width: 48px; height: 24px; flex-shrink: 0; margin-left: 1rem;">
@@ -209,13 +198,12 @@ defineExpose({ openPreferences })
         </div>
       </div>
       
-      <!-- Cookies marketing (optionnels) -->
       <div style="border: 2px solid #e5e7eb; border-radius: 0.75rem; padding: 1rem; margin-bottom: 2rem;">
         <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
           <div style="flex: 1;">
             <h3 style="font-weight: 600; color: #1f2937; margin-bottom: 0.25rem;">Cookies marketing</h3>
             <p style="font-size: 0.875rem; color: #6b7280;">
-              Utilisés pour vous proposer des publicités personnalisées.
+              Utilises pour vous proposer des publicites personnalisees.
             </p>
           </div>
           <label style="position: relative; display: inline-block; width: 48px; height: 24px; flex-shrink: 0; margin-left: 1rem;">
@@ -255,7 +243,6 @@ defineExpose({ openPreferences })
         </div>
       </div>
       
-      <!-- Boutons -->
       <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
         <button 
           @click="refuseAll"
