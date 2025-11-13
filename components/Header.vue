@@ -4,7 +4,6 @@ const isCartOpen = defineModel<boolean>('isCartOpen', { default: false })
 const isMobileMenuOpen = ref(false)
 const isScrolled = ref(false)
 
-// Détecter le scroll
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
 })
@@ -67,17 +66,21 @@ function handleButtonMouseOut(e: Event) {
     <div style="max-width: 1280px; margin: 0 auto; padding: 1.5rem 1.5rem; display: flex; align-items: center; justify-content: space-between;">
       
       <!-- Logo -->
-      <div style="display: flex; align-items: center; gap: 0.75rem; cursor: pointer;" @click="scrollToSection('hero')">
+      <button
+        @click="scrollToSection('hero')"
+        aria-label="Retour à l'accueil"
+        style="display: flex; align-items: center; gap: 0.75rem; cursor: pointer; background: none; border: none; padding: 0;"
+      >
         <div style="width: 3rem; height: 3rem; background-color: #fbbf24; border-radius: 9999px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-          <span style="font-size: 1.5rem;">🍔</span>
+          <span style="font-size: 1.5rem;" aria-hidden="true">🍔</span>
         </div>
-        <h1 style="font-size: 1.5rem; font-weight: bold; white-space: nowrap;">
+        <h1 style="font-size: 1.5rem; font-weight: bold; white-space: nowrap; color: white;">
           Burger<span style="color: #fbbf24;">Heaven</span>
         </h1>
-      </div>
+      </button>
 
       <!-- Navigation Desktop -->
-      <nav class="desktop-nav md-nav" style="display: none; gap: 2rem; align-items: center;">
+      <nav class="desktop-nav md-nav" style="display: none; gap: 2rem; align-items: center;" aria-label="Navigation principale">
         <button 
           @click="scrollToSection('menu')"
           @mouseover="handleMouseOver"
@@ -110,26 +113,30 @@ function handleButtonMouseOut(e: Event) {
         <!-- Bouton Burger Mobile -->
         <button 
           @click="toggleMobileMenu"
+          aria-label="Ouvrir le menu de navigation"
+          :aria-expanded="isMobileMenuOpen"
           class="burger-menu"
           style="display: none; flex-direction: column; gap: 0.25rem; cursor: pointer; padding: 0.5rem; background: transparent; border: none;"
         >
-          <span style="width: 1.5rem; height: 2px; background-color: white; transition: all 0.3s;"></span>
-          <span style="width: 1.5rem; height: 2px; background-color: white; transition: all 0.3s;"></span>
-          <span style="width: 1.5rem; height: 2px; background-color: white; transition: all 0.3s;"></span>
+          <span style="width: 1.5rem; height: 2px; background-color: white; transition: all 0.3s;" aria-hidden="true"></span>
+          <span style="width: 1.5rem; height: 2px; background-color: white; transition: all 0.3s;" aria-hidden="true"></span>
+          <span style="width: 1.5rem; height: 2px; background-color: white; transition: all 0.3s;" aria-hidden="true"></span>
         </button>
 
         <!-- Panier -->
         <button 
           @click="isCartOpen = true"
+          :aria-label="totalItems > 0 ? `Ouvrir le panier (${totalItems} articles)` : 'Ouvrir le panier'"
           @mouseover="handleButtonMouseOver"
           @mouseout="handleButtonMouseOut"
           style="position: relative; padding: 0.75rem; border-radius: 0.5rem; background: transparent; border: none; cursor: pointer; flex-shrink: 0; transition: background 0.2s;"
         >
-          <svg style="width: 1.5rem; height: 1.5rem; color: white;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg style="width: 1.5rem; height: 1.5rem; color: white;" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
           </svg>
           <span 
             v-if="totalItems > 0"
+            aria-hidden="true"
             style="position: absolute; top: -0.25rem; right: -0.25rem; background-color: #fbbf24; color: #1f2937; font-size: 0.75rem; font-weight: bold; border-radius: 9999px; width: 1.5rem; height: 1.5rem; display: flex; align-items: center; justify-content: center;"
           >
             {{ totalItems }}
@@ -143,23 +150,26 @@ function handleButtonMouseOut(e: Event) {
       class="mobile-overlay"
       :class="{ 'open': isMobileMenuOpen }"
       @click="isMobileMenuOpen = false"
+      aria-hidden="true"
     ></div>
 
     <!-- Menu Mobile -->
-    <div 
+    <nav
       class="mobile-menu"
       :class="{ 'open': isMobileMenuOpen }"
+      aria-label="Menu mobile"
     >
       <div style="display: flex; justify-content: flex-end; margin-bottom: 2rem;">
         <button 
           @click="isMobileMenuOpen = false"
+          aria-label="Fermer le menu"
           style="color: white; font-size: 2rem; background: none; border: none; cursor: pointer;"
         >
           ×
         </button>
       </div>
       
-      <nav style="display: flex; flex-direction: column; gap: 1.5rem;">
+      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
         <button 
           @click="scrollToSection('menu')"
           style="color: white; font-weight: 600; font-size: 1.25rem; background: none; border: none; cursor: pointer; text-align: left; padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.1);"
@@ -178,8 +188,8 @@ function handleButtonMouseOut(e: Event) {
         >
           Nous trouver
         </button>
-      </nav>
-    </div>
+      </div>
+    </nav>
   </header>
 </template>
 
@@ -206,5 +216,41 @@ function handleButtonMouseOut(e: Event) {
   .burger-menu {
     display: flex !important;
   }
+}
+
+.mobile-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+  z-index: 9998;
+}
+
+.mobile-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 80%;
+  max-width: 400px;
+  height: 100%;
+  background: #1f2937;
+  padding: 2rem;
+  transition: right 0.3s ease;
+  z-index: 9999;
+  overflow-y: auto;
+}
+
+.mobile-menu.open {
+  right: 0;
 }
 </style>

@@ -19,21 +19,22 @@
     "
   >
     <div class="container mx-auto px-4 text-center">
-      <!-- Titre principal en TRÈS GROS -->
-      <h1 style="font-size: 4rem; font-weight: bold; color: white; margin-bottom: 1.5rem; line-height: 1.2;">
+      <!-- Titre principal -->
+      <h1 style="font-size: 4rem; font-weight: bold; color: white; margin-bottom: 1.5rem; line-height: 1.2; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);">
         Des burgers faits avec <span style="color: #fbbf24;">amour</span>
       </h1>
       
-      <!-- Sous-titre en blanc, taille moyenne -->
-      <p style="font-size: 1.25rem; color: white; margin-bottom: 2rem; max-width: 42rem; margin-left: auto; margin-right: auto;">
+      <!-- Sous-titre -->
+      <p style="font-size: 1.25rem; color: white; margin-bottom: 2rem; max-width: 42rem; margin-left: auto; margin-right: auto; text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);">
         Découvrez nos délicieuses spécialités préparées avec des ingrédients frais et locaux.
       </p>
       
-      <!-- Boutons côte à côte -->
+      <!-- Boutons -->
       <div style="display: flex; gap: 1rem; justify-content: center; align-items: center; flex-wrap: wrap;">
-        <!-- Bouton JAUNE avec texte NOIR -->
+        <!-- Bouton JAUNE (contraste OK) -->
         <a 
-          href="#menu" 
+          href="#menu"
+          aria-label="Voir le menu des burgers"
           style="
             background-color: #fbbf24; 
             color: #000000; 
@@ -43,6 +44,7 @@
             text-decoration: none;
             transition: all 0.3s;
             display: inline-block;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
           "
           onmouseover="this.style.backgroundColor='#f59e0b'; this.style.transform='scale(1.05)'"
           onmouseout="this.style.backgroundColor='#fbbf24'; this.style.transform='scale(1)'"
@@ -50,32 +52,38 @@
           Voir le menu
         </a>
         
-        <!-- Bouton TRANSPARENT avec bordure et texte BLANC -->
+        <!-- ✅ Bouton BLANC (contraste amélioré) -->
         <a 
-          href="#promotions" 
+          href="#promotions"
+          aria-label="Commander maintenant"
           style="
-            background-color: transparent; 
-            color: white; 
-            border: 2px solid white;
-            font-weight: bold; 
-            padding: 0.875rem 2rem; 
-            border-radius: 9999px; 
+            background: rgba(255, 255, 255, 0.95);
+            color: #1f2937;
+            border: 2px solid #fbbf24;
+            font-weight: 700;
+            padding: 0.875rem 2rem;
+            border-radius: 9999px;
             text-decoration: none;
             transition: all 0.3s;
             display: inline-block;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
           "
-          onmouseover="this.style.backgroundColor='white'; this.style.color='#000000'"
-          onmouseout="this.style.backgroundColor='transparent'; this.style.color='white'"
+          onmouseover="this.style.backgroundColor='#fbbf24'; this.style.color='#000000'; this.style.transform='scale(1.05)'"
+          onmouseout="this.style.backgroundColor='rgba(255, 255, 255, 0.95)'; this.style.color='#1f2937'; this.style.transform='scale(1)'"
         >
           Commander maintenant
         </a>
       </div>
     </div>
     
-    <!-- Flèche animée en bas -->
+    <!-- Flèche animée -->
     <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2">
-      <a href="#promotions" class="text-white animate-bounce">
-        <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <a 
+        href="#promotions"
+        aria-label="Voir les promotions"
+        class="text-white animate-bounce"
+      >
+        <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
         </svg>
       </a>
