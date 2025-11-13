@@ -282,23 +282,28 @@ function handleMouseOut(e: Event) {
     v-if="isOpen"
     @click="closeCart"
     style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 9998;"
+    aria-hidden="true"
   ></div>
 
   <!-- Sidebar -->
-  <div 
+  <aside
     v-if="isOpen"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="cart-title"
     style="position: fixed; top: 0; right: 0; bottom: 0; width: 100%; max-width: 28rem; background: white; z-index: 9999; box-shadow: -4px 0 20px rgba(0,0,0,0.3); display: flex; flex-direction: column; overflow: hidden;"
   >
     <!-- Header -->
     <div style="display: flex; align-items: center; justify-content: space-between; padding: 1.5rem; border-bottom: 1px solid #e5e7eb;">
-      <h2 style="font-size: 1.5rem; font-weight: bold; color: #111827;">Votre panier</h2>
+      <h2 id="cart-title" style="font-size: 1.5rem; font-weight: bold; color: #111827;">Votre panier</h2>
       <button 
-        @click="closeCart" 
+        @click="closeCart"
+        aria-label="Fermer le panier"
         @mouseover="handleMouseOver"
         @mouseout="handleMouseOut"
         style="padding: 0.5rem; border: none; background: none; cursor: pointer; border-radius: 9999px; transition: background 0.2s;"
       >
-        <svg style="width: 1.5rem; height: 1.5rem;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg style="width: 1.5rem; height: 1.5rem;" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
@@ -313,7 +318,7 @@ function handleMouseOut(e: Event) {
 
       <!-- Articles -->
       <div v-else-if="!showCheckout" style="display: flex; flex-direction: column; gap: 1rem;">
-        <div v-for="item in cart" :key="item.id" style="display: flex; gap: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem;">
+        <article v-for="item in cart" :key="item.id" style="display: flex; gap: 1rem; background: #f9fafb; padding: 1rem; border-radius: 0.5rem;">
           <img 
             :src="item.image || 'https://placehold.co/80x80/FFD700/000000?text=Burger'" 
             :alt="`${item.nom} - Produit dans le panier`"
@@ -326,50 +331,92 @@ function handleMouseOut(e: Event) {
             <h3 style="font-weight: bold; color: #111827;">{{ item.nom }}</h3>
             <p style="color: #f59e0b; font-weight: 600;">€{{ item.prix.toFixed(2) }}</p>
             <div style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem;">
-              <button @click="dec(item.id)" style="width: 1.75rem; height: 1.75rem; background: #e5e7eb; border: none; border-radius: 0.25rem; cursor: pointer; font-weight: bold;">-</button>
-              <span style="font-weight: 600;">{{ item.qty }}</span>
-              <button @click="inc(item.id)" style="width: 1.75rem; height: 1.75rem; background: #e5e7eb; border: none; border-radius: 0.25rem; cursor: pointer; font-weight: bold;">+</button>
-              <button @click="remove(item.id)" style="margin-left: auto; color: #ef4444; border: none; background: none; cursor: pointer;">
-                <svg style="width: 1.25rem; height: 1.25rem;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <button 
+                @click="dec(item.id)"
+                aria-label="Diminuer la quantité"
+                style="width: 1.75rem; height: 1.75rem; background: #e5e7eb; border: none; border-radius: 0.25rem; cursor: pointer; font-weight: bold;"
+              >-</button>
+              <span style="font-weight: 600;" aria-label="Quantité">{{ item.qty }}</span>
+              <button 
+                @click="inc(item.id)"
+                aria-label="Augmenter la quantité"
+                style="width: 1.75rem; height: 1.75rem; background: #e5e7eb; border: none; border-radius: 0.25rem; cursor: pointer; font-weight: bold;"
+              >+</button>
+              <button 
+                @click="remove(item.id)"
+                aria-label="Supprimer du panier"
+                style="margin-left: auto; color: #ef4444; border: none; background: none; cursor: pointer;"
+              >
+                <svg style="width: 1.25rem; height: 1.25rem;" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                 </svg>
               </button>
             </div>
           </div>
-        </div>
+        </article>
       </div>
 
       <!-- Formulaire de commande -->
-      <div v-else style="display: flex; flex-direction: column; gap: 1rem;">
-        <button @click="showCheckout = false" style="color: #f59e0b; display: flex; align-items: center; gap: 0.5rem; border: none; background: none; cursor: pointer; font-weight: 500; padding: 0;">
-          <svg style="width: 1.25rem; height: 1.25rem;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <form v-else @submit.prevent="submitOrder" style="display: flex; flex-direction: column; gap: 1rem;">
+        <button 
+          @click="showCheckout = false" 
+          type="button"
+          aria-label="Retour au panier"
+          style="color: #f59e0b; display: flex; align-items: center; gap: 0.5rem; border: none; background: none; cursor: pointer; font-weight: 500; padding: 0;"
+        >
+          <svg style="width: 1.25rem; height: 1.25rem;" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
           </svg>
           Retour
         </button>
         
         <div>
-          <label style="display: block; font-size: 0.875rem; font-weight: 500; color: #374151; margin-bottom: 0.25rem;">Nom complet *</label>
-          <input v-model="form.nom_client" type="text" required style="width: 100%; padding: 0.75rem 1rem; border: 1px solid #d1d5db; border-radius: 0.5rem; font-size: 1rem;" placeholder="Jean Dupont" />
+          <label for="nom-client" style="display: block; font-size: 0.875rem; font-weight: 500; color: #374151; margin-bottom: 0.25rem;">Nom complet *</label>
+          <input 
+            id="nom-client"
+            v-model="form.nom_client" 
+            type="text" 
+            name="nom_client"
+            autocomplete="name"
+            required 
+            style="width: 100%; padding: 0.75rem 1rem; border: 1px solid #d1d5db; border-radius: 0.5rem; font-size: 1rem;" 
+            placeholder="Jean Dupont" 
+          />
         </div>
         
         <div>
-          <label style="display: block; font-size: 0.875rem; font-weight: 500; color: #374151; margin-bottom: 0.25rem;">Email *</label>
-          <input v-model="form.email_client" type="email" required style="width: 100%; padding: 0.75rem 1rem; border: 1px solid #d1d5db; border-radius: 0.5rem; font-size: 1rem;" placeholder="jean@example.com" />
+          <label for="email-client" style="display: block; font-size: 0.875rem; font-weight: 500; color: #374151; margin-bottom: 0.25rem;">Email *</label>
+          <input 
+            id="email-client"
+            v-model="form.email_client" 
+            type="email" 
+            name="email_client"
+            autocomplete="email"
+            required 
+            style="width: 100%; padding: 0.75rem 1rem; border: 1px solid #d1d5db; border-radius: 0.5rem; font-size: 1rem;" 
+            placeholder="jean@example.com" 
+          />
         </div>
 
         <!-- Sélecteur de créneau -->
-        <div style="border: 2px solid #e5e7eb; border-radius: 0.5rem; padding: 1rem;">
+        <fieldset style="border: 2px solid #e5e7eb; border-radius: 0.5rem; padding: 1rem;">
+          <legend style="font-size: 0.875rem; font-weight: 600; color: #374151; padding: 0 0.5rem;">Créneau de retrait</legend>
           <CreneauSelector v-model="selectedCreneau" />
-        </div>
+        </fieldset>
 
         <!-- Choix du mode de paiement -->
-        <div style="border: 2px solid #e5e7eb; border-radius: 0.5rem; padding: 1rem;">
-          <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #374151; margin-bottom: 0.75rem;">Mode de paiement</label>
+        <fieldset style="border: 2px solid #e5e7eb; border-radius: 0.5rem; padding: 1rem;">
+          <legend style="font-size: 0.875rem; font-weight: 600; color: #374151; padding: 0 0.5rem; margin-bottom: 0.75rem;">Mode de paiement</legend>
           
           <div style="display: flex; flex-direction: column; gap: 0.75rem;">
             <label style="display: flex; align-items: center; padding: 0.75rem; border: 2px solid; border-radius: 0.5rem; cursor: pointer; transition: all 0.2s;" :style="paymentMethod === 'cash' ? 'border-color: #fbbf24; background: #fef3c7;' : 'border-color: #e5e7eb; background: white;'">
-              <input type="radio" v-model="paymentMethod" value="cash" style="margin-right: 0.75rem;" />
+              <input 
+                type="radio" 
+                v-model="paymentMethod" 
+                value="cash" 
+                name="payment_method"
+                style="margin-right: 0.75rem;" 
+              />
               <div style="flex: 1;">
                 <div style="font-weight: 600; color: #111827;">💵 Payer sur place</div>
                 <div style="font-size: 0.75rem; color: #6b7280;">Réglez lors de la récupération</div>
@@ -377,19 +424,25 @@ function handleMouseOut(e: Event) {
             </label>
 
             <label style="display: flex; align-items: center; padding: 0.75rem; border: 2px solid; border-radius: 0.5rem; cursor: pointer; transition: all 0.2s;" :style="paymentMethod === 'stripe' ? 'border-color: #6366f1; background: #eef2ff;' : 'border-color: #e5e7eb; background: white;'">
-              <input type="radio" v-model="paymentMethod" value="stripe" style="margin-right: 0.75rem;" />
+              <input 
+                type="radio" 
+                v-model="paymentMethod" 
+                value="stripe" 
+                name="payment_method"
+                style="margin-right: 0.75rem;" 
+              />
               <div style="flex: 1;">
                 <div style="font-weight: 600; color: #111827;">💳 Payer maintenant</div>
                 <div style="font-size: 0.75rem; color: #6b7280;">Carte bancaire sécurisée</div>
               </div>
             </label>
           </div>
-        </div>
+        </fieldset>
 
-        <div v-if="error" style="background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; padding: 0.75rem 1rem; border-radius: 0.5rem; font-size: 0.875rem;">
+        <div v-if="error" role="alert" style="background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; padding: 0.75rem 1rem; border-radius: 0.5rem; font-size: 0.875rem;">
           {{ error }}
         </div>
-      </div>
+      </form>
     </div>
 
     <!-- Footer -->
@@ -421,10 +474,11 @@ function handleMouseOut(e: Event) {
         v-else
         @click="submitOrder"
         :disabled="loading"
+        :aria-busy="loading"
         :style="loading ? 'background: #d1d5db; cursor: not-allowed;' : 'background: #fbbf24;'"
         style="width: 100%; color: #111827; padding: 0.75rem; border-radius: 9999px; font-weight: bold; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: background 0.2s;"
       >
-        <svg v-if="loading" style="animation: spin 1s linear infinite; width: 1.25rem; height: 1.25rem;" fill="none" viewBox="0 0 24 24">
+        <svg v-if="loading" style="animation: spin 1s linear infinite; width: 1.25rem; height: 1.25rem;" fill="none" viewBox="0 0 24 24" aria-hidden="true">
           <circle style="opacity: 0.25;" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
           <path style="opacity: 0.75;" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
         </svg>
@@ -433,11 +487,16 @@ function handleMouseOut(e: Event) {
         <span v-else>Traitement...</span>
       </button>
 
-      <button @click="continueShopping" style="width: 100%; color: #f59e0b; font-size: 0.875rem; font-weight: 500; border: none; background: none; cursor: pointer; padding: 0;">
+      <button 
+        @click="continueShopping" 
+        type="button"
+        aria-label="Continuer les achats"
+        style="width: 100%; color: #f59e0b; font-size: 0.875rem; font-weight: 500; border: none; background: none; cursor: pointer; padding: 0;"
+      >
         ← Continuer vos achats
       </button>
     </div>
-  </div>
+  </aside>
 </template>
 
 <style scoped>

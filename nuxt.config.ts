@@ -14,7 +14,6 @@ export default defineNuxtConfig({
   },
   
   devtools: { enabled: false },
-  
   pages: true,
   
   runtimeConfig: {
@@ -39,13 +38,11 @@ export default defineNuxtConfig({
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         { name: 'description', content: 'Découvrez BurgerHeaven, vos burgers artisanaux préparés avec des ingrédients frais et locaux. Livraison rapide et service de qualité à Paris.' },
         { name: 'format-detection', content: 'telephone=no' },
-        
-        // Open Graph (Facebook, LinkedIn)
+        // Open Graph
         { property: 'og:type', content: 'website' },
         { property: 'og:title', content: 'BurgerHeaven - Les meilleurs burgers artisanaux' },
         { property: 'og:description', content: 'Burgers artisanaux avec ingrédients frais. Livraison rapide à Paris.' },
         { property: 'og:image', content: '/og-image.jpg' },
-        
         // Twitter
         { name: 'twitter:card', content: 'summary_large_image' },
         { name: 'twitter:title', content: 'BurgerHeaven - Les meilleurs burgers artisanaux' },
@@ -53,10 +50,31 @@ export default defineNuxtConfig({
       ],
       link: [
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-        // Préchargement Google Fonts (si besoin)
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous' }
       ]
+    }
+  },
+  
+  // ✅ NOUVEAUX : Optimisations Nitro
+  nitro: {
+    compressPublicAssets: true,
+    prerender: {
+      crawlLinks: true,
+      routes: ['/'],
+      ignore: ['/admin']
+    }
+  },
+  
+  // ✅ NOUVEAUX : Optimisations de build
+  experimental: {
+    payloadExtraction: false
+  },
+  
+  // ✅ NOUVEAUX : Router options
+  router: {
+    options: {
+      strict: false
     }
   },
   
