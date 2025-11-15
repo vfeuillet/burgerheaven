@@ -216,6 +216,53 @@ function handleButtonMouseOut(e: Event) {
   .burger-menu {
     display: flex !important;
   }
+
+  /* Réduire la taille du logo sur mobile */
+  button[aria-label="Retour à l'accueil"] div {
+    width: 2.5rem !important;
+    height: 2.5rem !important;
+  }
+
+  button[aria-label="Retour à l'accueil"] div span {
+    font-size: 1.25rem !important;
+  }
+
+  /* Réduire la taille du titre sur mobile */
+  button[aria-label="Retour à l'accueil"] h1 {
+    font-size: 1.25rem !important;
+  }
+
+  /* Padding réduit du header sur mobile */
+  header > div {
+    padding: 1rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Logo encore plus petit sur petits mobiles */
+  button[aria-label="Retour à l'accueil"] div {
+    width: 2rem !important;
+    height: 2rem !important;
+  }
+
+  button[aria-label="Retour à l'accueil"] div span {
+    font-size: 1rem !important;
+  }
+
+  /* Titre encore plus petit */
+  button[aria-label="Retour à l'accueil"] h1 {
+    font-size: 1rem !important;
+  }
+
+  /* Padding minimal */
+  header > div {
+    padding: 0.75rem !important;
+  }
+
+  /* Réduire gap entre éléments */
+  button[aria-label="Retour à l'accueil"] {
+    gap: 0.5rem !important;
+  }
 }
 
 .mobile-overlay {

@@ -504,4 +504,30 @@ function handleMouseOut(e: Event) {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+/* Responsive CartSidebar */
+@media (max-width: 480px) {
+  aside {
+    max-width: 100% !important;
+  }
+
+  /* Réduire le padding sur petits écrans */
+  aside > div:first-child,
+  aside > div:nth-child(2),
+  aside > div:last-child {
+    padding: 1rem !important;
+  }
+
+  /* Images produits plus petites sur mobile */
+  article img {
+    width: 4rem !important;
+    height: 4rem !important;
+  }
+}
+
+@media (max-width: 640px) and (min-width: 481px) {
+  aside {
+    max-width: 90% !important;
+  }
+}
 </style>

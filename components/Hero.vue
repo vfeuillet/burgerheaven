@@ -90,3 +90,48 @@
     </div>
   </div>
 </template>
+
+<style scoped>
+/* Responsive Hero */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2.5rem !important;
+    margin-bottom: 1rem !important;
+  }
+
+  p {
+    font-size: 1rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  a {
+    padding: 0.75rem 1.5rem !important;
+    font-size: 0.875rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 2rem !important;
+  }
+
+  p {
+    font-size: 0.875rem !important;
+  }
+
+  a {
+    padding: 0.625rem 1.25rem !important;
+    font-size: 0.75rem !important;
+  }
+
+  div[style*="display: flex; gap: 1rem"] {
+    gap: 0.75rem !important;
+  }
+}
+
+@media (max-width: 360px) {
+  h1 {
+    font-size: 1.75rem !important;
+  }
+}
+</style>

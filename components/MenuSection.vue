@@ -239,4 +239,42 @@ article:nth-child(3) { animation-delay: 0.3s; }
 .hover-filter-btn:active {
   transform: scale(0.98) !important;
 }
+
+/* Responsive pour grille produits */
+@media (max-width: 360px) {
+  section > div > div[style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+}
+
+/* Filtres responsive */
+@media (max-width: 768px) {
+  .flex.justify-center > div {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    padding: 0.75rem !important;
+  }
+
+  .flex.justify-center button {
+    font-size: 0.875rem !important;
+    padding: 0.5rem 1rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Cards produits plus compactes */
+  article > div {
+    padding: 1rem !important;
+  }
+
+  article h3 {
+    font-size: 1.25rem !important;
+  }
+
+  article p {
+    font-size: 0.875rem !important;
+  }
+}
 </style>
