@@ -1,128 +1,227 @@
+<script setup lang="ts">
+import CartSidebar from '~/components/CartSidebar.vue'
+import { ref, inject } from 'vue'
+
+const isCartOpen = ref(false)
+
+// ✅ Injection de la fonction resetCookies depuis app.vue
+const resetCookies = inject('resetCookies', () => {
+  // Fallback si inject ne fonctionne pas
+  localStorage.removeItem('cookie-consent')
+  localStorage.removeItem('cookie-consent-date')
+  window.location.reload()
+})
+</script>
+
 <template>
-  <div class="min-h-screen bg-gray-50">
-    <!-- Header avec navigation -->
-    <Header />
+  <div class="min-h-screen bg-white">
+    <!-- Header -->
+    <Header v-model:is-cart-open="isCartOpen" />
 
-    <!-- Bannière Hero -->
-    <Hero
-      title="Bienvenue dans votre restaurant"
-      subtitle="Commandez vos plats préférés en ligne"
-    />
+    <!-- Hero Section -->
+    <Hero />
 
-    <!-- Section exemple de contenu -->
-    <section class="py-16 px-4 max-w-7xl mx-auto">
-      <div class="text-center mb-12">
-        <h2 class="text-4xl font-bold text-gray-800 mb-4">
-          Template prêt à l'emploi
-        </h2>
-        <p class="text-lg text-gray-600 max-w-2xl mx-auto">
-          Personnalisez cette page selon vos besoins. Consultez le fichier
-          <code class="bg-gray-200 px-2 py-1 rounded">CUSTOMIZE.md</code>
-          pour le guide complet de personnalisation.
-        </p>
-      </div>
+    <!-- Section Promotions -->
+    <PromotionsSection />
 
-      <!-- Grille de fonctionnalités -->
-      <div class="grid md:grid-cols-3 gap-8 mt-12">
-        <div class="bg-white p-6 rounded-lg shadow-md">
-          <div class="text-4xl mb-4">🛒</div>
-          <h3 class="text-xl font-bold mb-2">Panier intelligent</h3>
-          <p class="text-gray-600">
-            Gestion complète du panier avec localStorage et calcul automatique.
+    <!-- Menu Section -->
+    <MenuSection />
+
+    <!-- Section "Nous trouver" + Avis combinés -->
+    <section id="trouver" style="padding: 3rem 0 5rem 0; background-color: #f9fafb;">
+      <div class="container mx-auto px-4">
+        
+        <!-- En-tête centré -->
+        <div class="text-center mb-12">
+          <h2 style="font-size: 3rem; font-weight: bold; color: #1f2937; margin-bottom: 0.75rem;">
+            Nous <span style="color: #fbbf24;">trouver</span>
+          </h2>
+          <p style="font-size: 1.125rem; color: #6b7280; max-width: 48rem; margin: 0 auto;">
+            Venez nous rendre visite dans notre établissement chaleureux.
           </p>
         </div>
 
-        <div class="bg-white p-6 rounded-lg shadow-md">
-          <div class="text-4xl mb-4">💳</div>
-          <h3 class="text-xl font-bold mb-2">Paiement Stripe</h3>
-          <p class="text-gray-600">
-            Intégration Stripe sécurisée pour les paiements en ligne.
-          </p>
-        </div>
+        <!-- Layout 2 colonnes -->
+        <div class="grid-trouver" style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; max-width: 1400px; margin: 0 auto;">
+          
+          <!-- COLONNE GAUCHE : Carte + Horaires -->
+          <div style="display: flex; flex-direction: column; gap: 2rem;">
+            
+            <!-- Carte Google Maps -->
+            <div style="background-color: white; border-radius: 1.5rem; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.1); height: 400px;">
+              <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.9916256937586!2d2.292292615674!3d48.858370079287!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e2964e34e2d%3A0x8ddca9ee380ef7e0!2sTour%20Eiffel!5e0!3m2!1sfr!2sfr!4v1234567890"
+                width="100%" 
+                height="100%" 
+                style="border:0;" 
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                title="Localisation BurgerHeaven sur Google Maps"
+              ></iframe>
+            </div>
 
-        <div class="bg-white p-6 rounded-lg shadow-md">
-          <div class="text-4xl mb-4">📱</div>
-          <h3 class="text-xl font-bold mb-2">Responsive design</h3>
-          <p class="text-gray-600">
-            Design mobile-first optimisé pour tous les écrans.
-          </p>
-        </div>
+            <!-- Horaires d'ouverture -->
+            <div style="background-color: white; border-radius: 1.5rem; padding: 2rem; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+              <h3 style="font-size: 1.75rem; font-weight: bold; color: #1f2937; margin-bottom: 1.5rem;">
+                Horaires d'ouverture
+              </h3>
+              
+              <div style="display: flex; flex-direction: column; gap: 1rem;">
+                <div style="display: flex; justify-content: space-between; padding-bottom: 1rem; border-bottom: 2px solid #f3f4f6;">
+                  <span style="font-weight: 600; color: #374151;">Lundi - Vendredi</span>
+                  <span style="font-weight: bold; color: #1f2937;">11h00 - 22h00</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding-bottom: 1rem; border-bottom: 2px solid #f3f4f6;">
+                  <span style="font-weight: 600; color: #374151;">Samedi</span>
+                  <span style="font-weight: bold; color: #1f2937;">11h00 - 23h00</span>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                  <span style="font-weight: 600; color: #374151;">Dimanche</span>
+                  <span style="font-weight: bold; color: #1f2937;">11h00 - 21h00</span>
+                </div>
+              </div>
+            </div>
+          </div>
 
-        <div class="bg-white p-6 rounded-lg shadow-md">
-          <div class="text-4xl mb-4">🍪</div>
-          <h3 class="text-xl font-bold mb-2">Gestion cookies RGPD</h3>
-          <p class="text-gray-600">
-            Bannière de consentement conforme aux réglementations.
-          </p>
-        </div>
+          <!-- COLONNE DROITE : Avis clients -->
+          <div>
+            <h3 style="font-size: 2rem; font-weight: bold; color: #1f2937; margin-bottom: 1.5rem; text-align: center;">
+              Ce que nos clients disent
+            </h3>
 
-        <div class="bg-white p-6 rounded-lg shadow-md">
-          <div class="text-4xl mb-4">🔐</div>
-          <h3 class="text-xl font-bold mb-2">Interface admin</h3>
-          <p class="text-gray-600">
-            Dashboard protégé pour gérer vos commandes.
-          </p>
-        </div>
+            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+              
+              <!-- Avis 1 -->
+              <div style="background-color: white; border-radius: 1rem; padding: 1.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                  <div style="width: 3rem; height: 3rem; background: linear-gradient(135deg, #fbbf24, #f59e0b); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
+                    👨
+                  </div>
+                  <div>
+                    <h4 style="font-weight: bold; color: #1f2937; font-size: 1.125rem;">Jean Dupont</h4>
+                    <div style="color: #fbbf24; font-size: 1.125rem;">⭐⭐⭐⭐⭐</div>
+                  </div>
+                </div>
+                <p style="color: #6b7280; font-style: italic; line-height: 1.6;">
+                  "Les burgers sont exceptionnels ! Les ingrédients sont frais et le service est rapide. Je recommande vivement !"
+                </p>
+              </div>
 
-        <div class="bg-white p-6 rounded-lg shadow-md">
-          <div class="text-4xl mb-4">🎨</div>
-          <h3 class="text-xl font-bold mb-2">Personnalisable</h3>
-          <p class="text-gray-600">
-            Tailwind CSS pour personnaliser facilement le design.
-          </p>
-        </div>
-      </div>
+              <!-- Avis 2 -->
+              <div style="background-color: white; border-radius: 1rem; padding: 1.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                  <div style="width: 3rem; height: 3rem; background: linear-gradient(135deg, #fbbf24, #f59e0b); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
+                    👩
+                  </div>
+                  <div>
+                    <h4 style="font-weight: bold; color: #1f2937; font-size: 1.125rem;">Marie Lambert</h4>
+                    <div style="color: #fbbf24; font-size: 1.125rem;">⭐⭐⭐⭐⭐</div>
+                  </div>
+                </div>
+                <p style="color: #6b7280; font-style: italic; line-height: 1.6;">
+                  "Adorable petit fast-food avec une ambiance conviviale. Les frites sont croustillantes à l'extérieur et fondantes à l'intérieur !"
+                </p>
+              </div>
 
-      <!-- CTA Section -->
-      <div class="mt-16 bg-blue-600 text-white rounded-lg p-8 text-center">
-        <h3 class="text-3xl font-bold mb-4">Prêt à commencer ?</h3>
-        <p class="text-lg mb-6">
-          Consultez le README.md pour installer et configurer votre projet.
-        </p>
-        <div class="flex gap-4 justify-center flex-wrap">
-          <a
-            href="#"
-            class="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition"
-          >
-            Voir la documentation
-          </a>
-          <a
-            href="/admin"
-            class="bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-800 transition"
-          >
-            Accès admin
-          </a>
+              <!-- Avis 3 -->
+              <div style="background-color: white; border-radius: 1rem; padding: 1.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                  <div style="width: 3rem; height: 3rem; background: linear-gradient(135deg, #fbbf24, #f59e0b); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
+                    👨
+                  </div>
+                  <div>
+                    <h4 style="font-weight: bold; color: #1f2937; font-size: 1.125rem;">Thomas Martin</h4>
+                    <div style="color: #fbbf24; font-size: 1.125rem;">⭐⭐⭐⭐⭐</div>
+                  </div>
+                </div>
+                <p style="color: #6b7280; font-style: italic; line-height: 1.6;">
+                  "Je commande régulièrement chez BurgerHeaven, toujours à l'heure et les plats bien emballés. Qualité au top !"
+                </p>
+              </div>
+
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
 
-    <!-- Footer exemple -->
-    <footer class="bg-gray-800 text-white py-8 mt-16">
-      <div class="max-w-7xl mx-auto px-4 text-center">
-        <p class="text-gray-400">
-          Template Restaurant E-Commerce - Nuxt 4 + Vue 3 + Strapi + Stripe
-        </p>
-        <p class="text-gray-500 text-sm mt-2">
-          Personnalisez ce footer selon vos besoins
-        </p>
+    <!-- ✅ FOOTER COMPLET AVEC BOUTON COOKIES FONCTIONNEL -->
+    <footer class="bg-gradient-to-br from-gray-900 to-gray-800 text-white py-16 mt-16">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center">
+          <!-- Logo -->
+          <div class="flex items-center justify-center gap-3 mb-6">
+            <span class="text-5xl">🍔</span>
+            <span class="text-3xl font-bold">BurgerHeaven</span>
+          </div>
+          
+          <!-- Copyright -->
+          <p class="text-gray-400 mb-4 text-lg">
+            © 2025 BurgerHeaven - Tous droits réservés
+          </p>
+          
+          <!-- ✅ TEXTE CORRIGÉ SANS BUG -->
+          <p class="text-gray-500 mb-6 text-base" style="display: block !important;">
+            Fait avec 
+            <span class="text-red-500 mx-1 inline-block">❤️</span>
+            amour et des ingrédients frais
+          </p>
+          
+          <!-- ✅ BOUTON COOKIES QUI FONCTIONNE -->
+          <div class="flex items-center justify-center gap-3 text-sm text-gray-400">
+            <NuxtLink to="/mentions-legales" class="hover:text-yellow-400 transition-colors">
+              Mentions légales
+            </NuxtLink>
+            <span>•</span>
+            <button 
+             @click="resetCookies"
+              aria-label="Gérer les préférences de cookies"
+              class="hover:text-yellow-400 transition-colors cursor-pointer underline"
+              style="background: none; border: none; color: inherit; font-size: inherit; padding: 0;"
+            >
+            Gérer les cookies
+            </button>
+          </div>
+        </div>
       </div>
     </footer>
 
-    <!-- Composants globaux -->
-    <CartSidebar />
-    <CookieBanner />
+    <!-- Cart Sidebar -->
+    <CartSidebar v-model="isCartOpen" />
   </div>
 </template>
 
-<script setup>
-// Meta tags SEO pour cette page
-useHead({
-  title: 'Restaurant Template - Accueil',
-  meta: [
-    {
-      name: 'description',
-      content: 'Template moderne pour site de restaurant avec commande en ligne'
-    }
-  ]
-})
-</script>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+#__nuxt {
+  margin: 0;
+  padding: 0;
+}
+
+/* Responsive grid pour section "Nous trouver" */
+@media (max-width: 768px) {
+  .grid-trouver {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid-trouver {
+    gap: 1.5rem !important;
+  }
+}
+</style>

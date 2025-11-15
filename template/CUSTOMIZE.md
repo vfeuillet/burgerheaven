@@ -2,6 +2,8 @@
 
 Ce guide vous accompagne pas à pas pour transformer ce template en votre propre site de restaurant.
 
+> ✨ **Bonne nouvelle !** Toutes les pages et fonctionnalités sont déjà codées. Vous devez juste personnaliser les textes, images, couleurs et configurer Strapi.
+
 ## ✅ Checklist de personnalisation
 
 ### 1️⃣ Branding et identité visuelle

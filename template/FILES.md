@@ -24,7 +24,9 @@ Ce document liste tous les fichiers inclus dans le template avec leur rôle.
 
 ## 🧩 Composants (`/components`)
 
-Tous sont **génériques et réutilisables**.
+**10 composants complets** pour un site de restaurant fonctionnel.
+
+### Composants UI génériques
 
 | Composant | Description | Personnalisation |
 |-----------|-------------|------------------|
@@ -33,6 +35,16 @@ Tous sont **génériques et réutilisables**.
 | **CartSidebar.vue** | Panier coulissant latéral | ✅ Frais de livraison, design |
 | **CookieBanner.vue** | Gestion cookies RGPD | ✅ Catégories, liens légaux |
 | **AdminLogin.vue** | Page de connexion admin | ✅ Mot de passe, design |
+
+### Composants métier restaurant
+
+| Composant | Description | Personnalisation |
+|-----------|-------------|------------------|
+| **MenuSection.vue** | Menu produits avec filtres catégories | ✅ Requêtes GraphQL, design |
+| **PromotionsSection.vue** | Section promotions avec badges | ✅ Requêtes GraphQL, design |
+| **CreneauSelector.vue** | Sélecteur créneaux de retrait | ✅ Logique horaires |
+| **CommandeCard.vue** | Carte commande pour admin | ✅ Statuts, design |
+| **commandeSection.vue** | Formulaire de commande | ✅ Champs, validation |
 
 ### Comment utiliser les composants
 
@@ -86,16 +98,16 @@ const { data } = await gql({
 
 ## 📄 Pages (`/pages`)
 
-Routes de l'application.
+**4 pages complètes et fonctionnelles** incluses dans le template.
 
-| Page | Route | Description | Statut |
-|------|-------|-------------|--------|
-| **index.vue** | `/` | Page d'accueil exemple | ✅ Fournie (exemple) |
-| **admin.vue** | `/admin` | Dashboard admin | ❌ À créer |
-| **mentions-legales.vue** | `/mentions-legales` | Mentions légales | ❌ À créer |
-| **commande/[code].vue** | `/commande/:code` | Suivi commande | ❌ À créer |
+| Page | Route | Description | Contenu |
+|------|-------|-------------|---------|
+| **index.vue** | `/` | Page d'accueil complète | ✅ Hero, Promotions, Menu, Avis clients, Infos pratiques |
+| **admin.vue** | `/admin` | Dashboard admin complet | ✅ Gestion commandes, filtres, recherche, validation paiements |
+| **mentions-legales.vue** | `/mentions-legales` | Mentions légales RGPD | ✅ Cookies, conservation données, droits utilisateurs |
+| **commande/[code].vue** | `/commande/:code` | Suivi commande client | ✅ Détails commande, statut, ligne de commandes |
 
-> **Note** : Seule la page `index.vue` est fournie comme exemple. Les autres pages sont à créer selon vos besoins (consultez CUSTOMIZE.md).
+> ✨ **Toutes les pages sont fournies !** Il vous suffit de personnaliser les textes et de configurer Strapi.
 
 ---
 
@@ -157,29 +169,30 @@ Fichiers statiques accessibles publiquement.
 
 ### ✅ Fichiers fournis et prêts à l'emploi
 
-- 5 composants UI génériques
-- 2 composables de logique métier
-- 4 endpoints API serveur
-- 1 page d'exemple
-- 2 fichiers CSS (Tailwind + custom)
-- Configuration complète (Nuxt, Tailwind, PostCSS, TypeScript)
-- Documentation complète (README, CUSTOMIZE, CHANGELOG, FILES)
+- **10 composants Vue** (5 UI génériques + 5 métier restaurant)
+- **2 composables** de logique métier (panier, GraphQL)
+- **4 endpoints API** serveur (GraphQL, Stripe, config, ping)
+- **4 pages complètes** (accueil, admin, suivi commande, mentions légales)
+- **2 fichiers CSS** (Tailwind + animations custom)
+- **Configuration complète** (Nuxt 4, Tailwind, PostCSS, TypeScript)
+- **Documentation exhaustive** (README, CUSTOMIZE, CHANGELOG, FILES)
+- **Script d'installation** automatique (setup.sh)
 
-### ❌ À créer par vous
+### ⚠️ À configurer (pas de code à écrire)
 
-- Pages spécifiques à votre restaurant (admin, mentions légales, etc.)
-- Composants métier (MenuSection, ProductGrid, etc.)
-- Images et assets visuels (logo, photos produits, etc.)
-- Configuration Strapi (collections, permissions)
-- Comptes Stripe et webhooks
+- **Strapi CMS** : Créer les collections (Produit, Commande, etc.) et générer le token API
+- **Stripe** : Créer compte et copier les clés API
+- **Variables d'environnement** : Remplir le fichier `.env`
 
-### ⚠️ À personnaliser
+### 🎨 À personnaliser (contenu uniquement)
 
-- Meta tags SEO dans `nuxt.config.ts`
-- Couleurs et thème dans `tailwind.config.ts`
-- Logo et liens dans `Header.vue`
-- Textes et images dans tous les composants
-- Variables d'environnement `.env`
+- **Branding** : Logo, nom restaurant, couleurs
+- **Textes** : Titres, descriptions, slogans
+- **Images** : Photos produits, hero, favicon
+- **Meta tags SEO** : Title, description, Open Graph
+- **Mot de passe admin** : Changer le mot de passe par défaut
+
+> 🎉 **Aucun code à écrire !** Le template est 100% fonctionnel. Configurez Strapi et personnalisez le contenu.
 
 ---
 
