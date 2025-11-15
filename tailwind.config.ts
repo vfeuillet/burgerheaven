@@ -6,7 +6,9 @@ export default <Partial<Config>>{
     './layouts/**/*.vue',
     './pages/**/*.vue',
     './plugins/**/*.{js,ts}',
-    './app.vue'
+    './app.vue',
+    // Exclure le dossier template
+    '!./template/**/*'
   ],
   theme: {
     extend: {},
