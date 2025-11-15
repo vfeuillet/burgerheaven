@@ -193,4 +193,33 @@ article:nth-child(3) { animation-delay: 0.3s; }
     transform: translateY(0);
   }
 }
+
+/* Responsive pour grille produits */
+@media (max-width: 360px) {
+  section > div > div[style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Cards produits plus compactes */
+  article > div {
+    padding: 1rem !important;
+  }
+
+  article h3 {
+    font-size: 1.25rem !important;
+  }
+
+  article p {
+    font-size: 0.875rem !important;
+  }
+
+  /* Badge économie plus petit */
+  article > div > div[style*="background: linear-gradient(135deg, #d1fae5"] {
+    padding: 0.5rem !important;
+    font-size: 0.75rem !important;
+  }
+}
 </style>

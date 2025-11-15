@@ -42,7 +42,7 @@ const resetCookies = inject('resetCookies', () => {
         </div>
 
         <!-- Layout 2 colonnes -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; max-width: 1400px; margin: 0 auto;">
+        <div class="grid-trouver" style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; max-width: 1400px; margin: 0 auto;">
           
           <!-- COLONNE GAUCHE : Carte + Horaires -->
           <div style="display: flex; flex-direction: column; gap: 2rem;">
@@ -209,5 +209,19 @@ html, body {
 #__nuxt {
   margin: 0;
   padding: 0;
+}
+
+/* Responsive grid pour section "Nous trouver" */
+@media (max-width: 768px) {
+  .grid-trouver {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid-trouver {
+    gap: 1.5rem !important;
+  }
 }
 </style>

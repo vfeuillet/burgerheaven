@@ -116,17 +116,71 @@ html {
   .hero-title {
     font-size: 1.75rem !important;
   }
-  
+
   /* Padding minimal */
   .container {
     padding-left: 1rem !important;
     padding-right: 1rem !important;
   }
-  
+
   /* Boutons plus petits */
   button, .button {
     font-size: 0.875rem !important;
     padding: 0.625rem 1.25rem !important;
+  }
+
+  /* Inputs de formulaire plus compacts */
+  input, textarea, select {
+    font-size: 0.875rem !important;
+    padding: 0.625rem !important;
+  }
+
+  /* Cards avec moins de padding */
+  .card, article, [role="article"] {
+    padding: 0.75rem !important;
+  }
+
+  /* Images plus petites dans les cards */
+  article img, .card img {
+    max-height: 150px !important;
+  }
+}
+
+/* Améliorations supplémentaires pour tous mobiles */
+@media (max-width: 768px) {
+  /* Conteneurs max-width ajustés */
+  .mx-auto, .container {
+    max-width: 100% !important;
+  }
+
+  /* Footer texte centré et plus compact */
+  footer {
+    padding: 2rem 1rem !important;
+  }
+
+  footer p, footer div {
+    font-size: 0.875rem !important;
+  }
+
+  /* Réduire l'espace entre les avis clients */
+  [style*="gap: 1.5rem"] {
+    gap: 1rem !important;
+  }
+
+  /* Horaires d'ouverture plus compacts */
+  [style*="padding: 2rem"] {
+    padding: 1.5rem !important;
+  }
+
+  /* Map height réduite sur mobile */
+  iframe[title*="Google Maps"] {
+    height: 300px !important;
+  }
+
+  /* Filtres catégories en colonnes sur mobile */
+  [style*="flex-wrap: wrap"] button {
+    flex: 1 1 calc(50% - 0.5rem);
+    min-width: 120px;
   }
 }
 
