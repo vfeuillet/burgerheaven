@@ -1,21 +1,34 @@
 # 🍽️ Template Restaurant E-Commerce
 
-Template moderne et complet pour site de restaurant avec commande en ligne, développé avec **Nuxt 4** + **Vue 3** + **Strapi CMS** + **Stripe**.
+Template **100% fonctionnel** et **prêt à l'emploi** pour site de restaurant avec commande en ligne, développé avec **Nuxt 4** + **Vue 3** + **Strapi CMS** + **Stripe**.
+
+> ⚡ **Template complet** : Toutes les pages et fonctionnalités sont incluses ! Configurez Strapi, personnalisez les textes/images, et votre site est prêt.
 
 ## 🎯 Caractéristiques principales
 
 ### ✅ Fonctionnalités incluses
 
-- **Navigation responsive** avec menu mobile hamburger
-- **Bannière Hero** personnalisable avec CTA
-- **Panier d'achat** avec gestion localStorage
-- **Paiement en ligne** via Stripe + paiement sur place
-- **Gestion des cookies** conforme RGPD
-- **Interface admin** protégée par mot de passe
-- **API serveur** sécurisée avec proxy GraphQL
-- **Design mobile-first** avec Tailwind CSS
-- **Accessibilité** (ARIA labels, contraste)
-- **SEO optimisé** (meta tags, Open Graph, Twitter Cards)
+**Pages complètes :**
+- ✅ **Page d'accueil** - Hero, promotions, menu produits, avis, infos pratiques
+- ✅ **Dashboard admin** - Gestion commandes, filtres, recherche, validation paiements
+- ✅ **Suivi de commande** - Page client avec code de retrait
+- ✅ **Mentions légales** - Page RGPD complète
+
+**Composants métier :**
+- ✅ **Menu produits** avec filtres par catégorie
+- ✅ **Section promotions** avec badges et calcul réductions
+- ✅ **Sélecteur de créneaux** pour retrait commande
+- ✅ **Cartes de commande** pour interface admin
+
+**Fonctionnalités techniques :**
+- ✅ **Navigation responsive** avec menu mobile hamburger
+- ✅ **Panier d'achat** complet avec gestion localStorage
+- ✅ **Paiement Stripe** + paiement sur place
+- ✅ **Gestion cookies** conforme RGPD
+- ✅ **API serveur** sécurisée avec proxy GraphQL
+- ✅ **Design mobile-first** avec Tailwind CSS
+- ✅ **Accessibilité** (ARIA labels, contraste)
+- ✅ **SEO optimisé** (meta tags, Open Graph, Twitter Cards)
 
 ### 🛠️ Stack technique
 
@@ -34,19 +47,28 @@ Template moderne et complet pour site de restaurant avec commande en ligne, dév
 
 ```
 restaurant-template/
-├── components/          # Composants Vue réutilisables
-│   ├── Header.vue       # Navigation principale
-│   ├── Hero.vue         # Bannière hero
-│   ├── CartSidebar.vue  # Panier d'achat
-│   ├── CookieBanner.vue # Gestion cookies RGPD
-│   └── AdminLogin.vue   # Page de connexion admin
+├── components/              # 10 composants Vue
+│   ├── Header.vue           # Navigation principale responsive
+│   ├── Hero.vue             # Bannière hero avec CTA
+│   ├── CartSidebar.vue      # Panier d'achat complet
+│   ├── CookieBanner.vue     # Gestion cookies RGPD
+│   ├── AdminLogin.vue       # Authentification admin
+│   ├── MenuSection.vue      # Affichage menu avec filtres
+│   ├── PromotionsSection.vue # Section promotions
+│   ├── CreneauSelector.vue  # Sélection créneau retrait
+│   ├── CommandeCard.vue     # Carte commande admin
+│   └── commandeSection.vue  # Section formulaire commande
 │
 ├── composables/         # Logique réutilisable
 │   ├── useCart.ts       # Gestion état panier
 │   └── useGql.ts        # Wrapper GraphQL
 │
-├── pages/               # Routes (à créer selon vos besoins)
-│   └── (vos pages ici)
+├── pages/               # 4 pages complètes
+│   ├── index.vue        # Page d'accueil complète
+│   ├── admin.vue        # Dashboard admin
+│   ├── mentions-legales.vue  # Mentions légales
+│   └── commande/
+│       └── [code].vue   # Suivi commande par code
 │
 ├── server/api/          # Endpoints API serveur
 │   ├── gql.post.ts                      # Proxy GraphQL Strapi
