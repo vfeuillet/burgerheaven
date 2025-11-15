@@ -1,6 +1,11 @@
 import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
+  // Ignorer le dossier template pour éviter les conflits
+  ignore: [
+    'template/**/*'
+  ],
+
   css: [
     '@/assets/css/tailwind.css',
     '@/assets/css/main.css'
